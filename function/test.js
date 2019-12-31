@@ -1,5 +1,5 @@
-const controller = require("./controller")
+const bible = require("./controller")
 
-console.log(controller.fullBible('en').books.genesis.data);
-console.log(controller.booksNames())
-console.log(controller.bibleData());
+console.log(bible.full('en').books.genesis.data);
+console.log(bible.titles())
+console.log(bible.data());
