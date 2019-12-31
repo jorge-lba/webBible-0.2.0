@@ -67,7 +67,10 @@ module.exports = ( ) => {
         apocalipse = require( `./_apocalipse.json` )
         
         return {
-            genesis,exodo,levitico,numeros,deuteronomio,josue,juizes,rute,Isamuel,IIsamuel,Ireis,IIreis,Icronicas,IIcronicas,esdras,neemias,ester,jo,salmos,proverbios,eclesiastes,canticos,isaias,jeremias,lamentacoesdejeremias,ezequiel,daniel,oseias,joel,amos,obadias,jonas,miqueias,naum,habacuque,sofonias,ageu,zacarias,malaquias,mateus,marcos,lucas,joao,atos,romanos,Icorintios,IIcorintios,galatas,efesios,filipenses,colossenses,Itessalonicenses,IItessalonicenses,Itimoteo,IItimoteo,tito,filemom,hebreus,tiago,Ipedro,IIpedro,Ijoao,IIjoao,IIIjoao,judas,apocalipse,dataBible = {language:"pt-br", version: "AA"}
+            books: {
+                genesis,exodo,levitico,numeros,deuteronomio,josue,juizes,rute,Isamuel,IIsamuel,Ireis,IIreis,Icronicas,IIcronicas,esdras,neemias,ester,jo,salmos,proverbios,eclesiastes,canticos,isaias,jeremias,lamentacoesdejeremias,ezequiel,daniel,oseias,joel,amos,obadias,jonas,miqueias,naum,habacuque,sofonias,ageu,zacarias,malaquias,mateus,marcos,lucas,joao,atos,romanos,Icorintios,IIcorintios,galatas,efesios,filipenses,colossenses,Itessalonicenses,IItessalonicenses,Itimoteo,IItimoteo,tito,filemom,hebreus,tiago,Ipedro,IIpedro,Ijoao,IIjoao,IIIjoao,judas,apocalipse
+            },
+            data:{language:"pt-br", version: "AA"}
         }
         
     }

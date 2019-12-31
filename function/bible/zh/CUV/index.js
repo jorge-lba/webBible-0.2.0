@@ -67,7 +67,10 @@ module.exports = ( ) => {
         revelation = require( `./_revelation.json` )
         
         return {
-            genesis,exodus,leviticus,numbers,deuteronomy,joshua,judges,ruth,Isamuel,IIsamuel,Ikings,IIkings,Ichronicles,IIchronicles,ezra,nehemiah,esther,job,psalms,proverbs,ecclesiastes,songofsolomon,isaiah,jeremiah,lamentations,ezekiel,daniel,hosea,joel,amos,obadiah,jonah,micah,nahum,habakkuk,zephaniah,haggai,zechariah,malachi,matthew,mark,luke,john,acts,romans,Icorinthians,IIcorinthians,galatians,ephesians,philippians,colossians,Ithessalonians,IIthessalonians,Itimothy,IItimothy,titus,philemon,hebrews,james,Ipeter,IIpeter,Ijohn,IIjohn,IIIjohn,jude,revelation,dataBible = {language:"zh", version: "CUV"}
+            books: {
+                genesis,exodus,leviticus,numbers,deuteronomy,joshua,judges,ruth,Isamuel,IIsamuel,Ikings,IIkings,Ichronicles,IIchronicles,ezra,nehemiah,esther,job,psalms,proverbs,ecclesiastes,songofsolomon,isaiah,jeremiah,lamentations,ezekiel,daniel,hosea,joel,amos,obadiah,jonah,micah,nahum,habakkuk,zephaniah,haggai,zechariah,malachi,matthew,mark,luke,john,acts,romans,Icorinthians,IIcorinthians,galatians,ephesians,philippians,colossians,Ithessalonians,IIthessalonians,Itimothy,IItimothy,titus,philemon,hebrews,james,Ipeter,IIpeter,Ijohn,IIjohn,IIIjohn,jude,revelation
+            },
+            data:{language:"zh", version: "CUV"}
         }
         
     }
