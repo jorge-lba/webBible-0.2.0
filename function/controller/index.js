@@ -5,7 +5,7 @@ const data = {
 
 const testIfBookIsValid = ( fullBible, objectData = data ) => {
     const validBooks = Object.keys( fullBible.books )
-    return validBooks.indexOf( objectData.book ) > 0 ? [ objectData.book ] : [ validBooks[0], `Book ${objectData.book} does not exist, result changed to Genesis` ] 
+    return validBooks.indexOf( objectData.book ) > 0 ? { result: objectData.book } : { result: validBooks[0], error: `Book ${objectData.book} does not exist, result changed to Genesis` } 
 }
 
 
@@ -19,4 +19,4 @@ module.exports.titles = ( objectData = data ) => {
 } 
 module.exports.data = ( objectData = data ) => bible( objectData.language, objectData.version ).data
 
-console.log(testIfBookIsValid(bible()))
+console.log(testIfBookIsValid(bible()).result)
