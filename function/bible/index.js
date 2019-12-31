@@ -22,9 +22,3 @@ module.exports = ( language, version ) => {
     const bible = getBible( language, version )
     return bible
 }
-
-console.log( getBible( "pt-br", "ACF" ).books.judas[1][1] )
-console.log( getValidLanguageOptions() )
-console.log( getValidVersionOptions( getValidLanguageOptions()[9]) )
-console.log( testIfCallIsValid( 'NVI', getValidVersionOptions( getValidLanguageOptions()[9] ) ) )
-console.log( returnsAnExistingBible( 'en', 'NVI' ).books.genesis[1][1] )
