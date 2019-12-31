@@ -1,5 +1,9 @@
 const bible = require("./controller")
+const data = {
+    language: '',
+    version: 'NVI'
+}
 
-console.log(bible.full('en').books.genesis.data);
-console.log(bible.titles())
-console.log(bible.data());
+console.log(bible.full( data ).books.genesis.data);
+console.log(bible.titles( data ))
+console.log(bible.data( data ));
