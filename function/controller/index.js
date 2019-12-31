@@ -1,10 +1,11 @@
 const bible = require( '../bible' )
+const data = {
+    book: 'jodas'
+}
 
-const data = {}
-
-
-const testIfBookIsValid = () => {
-    
+const testIfBookIsValid = ( fullBible, objectData = data ) => {
+    const validBooks = Object.keys( fullBible.books )
+    return validBooks.indexOf( objectData.book ) > 0 ? [ objectData.book ] : [ validBooks[0], `Book ${objectData.book} does not exist, result changed to Genesis` ] 
 }
 
 
@@ -17,3 +18,5 @@ module.exports.titles = ( objectData = data ) => {
     return bibleBooks.map( bookName => fullBible.books[bookName].data.title )
 } 
 module.exports.data = ( objectData = data ) => bible( objectData.language, objectData.version ).data
+
+console.log(testIfBookIsValid(bible()))
