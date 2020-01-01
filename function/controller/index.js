@@ -1,7 +1,10 @@
 const bible = require( '../bible' )
 const data = {
+    language: 'pt-br',
+    version: 'NVI',
     book: 'genesis',
-    chapter: 20
+    chapter: 1,
+    verse: 1
 }
 
 const testIfBookIsValid = ( fullBible, objectData = data ) => {
@@ -20,6 +23,13 @@ const testIfChapterIsValid = ( bibleBook, objectData = data ) => {
 }
 
 module.exports.getBook = ( objectData = data) => bible( objectData.language, objectData.version ).books[ objectData.book ]
+module.exports.getChapter = ( objectData = data ) => bible( objectData.language, objectData.version )
+                                                        .books[ objectData.book ]
+                                                        [ objectData.chapter ]
+module.exports.getVerse = ( objectData = data ) => bible( objectData.language, objectData.version )
+                                                        .books[ objectData.book ]
+                                                        [ objectData.chapter ]
+                                                        [ objectData.verse ]
 
 
 const returnChapter = ( objectData = data ) => {
