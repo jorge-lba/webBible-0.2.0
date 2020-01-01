@@ -14,18 +14,26 @@ const testIfBookIsValid = ( fullBible, objectData = data ) => {
         : { result: validBooks[0], error: `Book ${objectData.book} does not exist, result changed to Genesis.` } 
 }
 
-const testIfChapterIsValid = ( bibleBook, objectData = data ) => {
-    const validChapters = Object.keys( bibleBook )
-    console.log(validChapters)
-    return validChapters.indexOf( objectData.chapter.toString() ) > 0
-        ? { result: objectData.chapter , error: 'No erros found.'}
-        : { result: validChapters[0], error: `Book ${objectData.chapter} does not exist, result changed to one.` }
+const testIfChapterIsValid = ( bookBible, objectData = data ) => {
+    const validChapters = Object.keys( bookBible )
+    return validChapters.indexOf( objectData.chapter.toString() ) > -1
+        ? { result: objectData.chapter, error: 'No erros found.'}
+        : { result: validChapters[0], error: `Chapter ${objectData.chapter} does not exist, result changed to one.` }
+}
+
+const testIfVerseIsValid = ( chapterBible, objectData = data ) => {
+    const validVerses = Object.keys( chapterBible )
+    return validVerses.indexOf( objectData.verse.toString() ) > -1
+        ? { result: objectData.verse, error: 'No erros found.' }
+        : { result: validVerses[0], error: `Verse ${objectData.verse} does not exist, result changed to one.` }
 }
 
 module.exports.getBook = ( objectData = data) => bible( objectData.language, objectData.version ).books[ objectData.book ]
+
 module.exports.getChapter = ( objectData = data ) => bible( objectData.language, objectData.version )
                                                         .books[ objectData.book ]
                                                         [ objectData.chapter ]
+
 module.exports.getVerse = ( objectData = data ) => bible( objectData.language, objectData.version )
                                                         .books[ objectData.book ]
                                                         [ objectData.chapter ]
@@ -48,3 +56,4 @@ module.exports.data = ( objectData = data ) => bible( objectData.language, objec
 
 console.log(testIfBookIsValid(bible()).error)
 console.log(testIfChapterIsValid(bible().books.genesis))
+console.log(testIfVerseIsValid(bible().books.genesis[1]))
