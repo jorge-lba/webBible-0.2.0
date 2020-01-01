@@ -1,6 +1,13 @@
 const fs = require('fs')
+const data = {
+    language: 'pt-br',
+    version: 'NVI',
+    book: 'genesis',
+    chapter: 1,
+    verse: 1
+}
 
-const getBible = ( language, version ) => require( `./${language}/${version}` )()
+const getBible = ( objectData = data ) => require( `./${objectData.language}/${objectData.version}` )()
 
 const getValidLanguageOptions = () => {
     const language = fs.readdirSync (__dirname )
@@ -12,13 +19,12 @@ const getValidVersionOptions = ( language ) => fs.readdirSync( __dirname+'/'+lan
 
 const testIfCallIsValid = ( call, options ) => options.indexOf(call) < 0 ? false : true
 
-module.exports = ( language, version ) => {
+module.exports = ( objectData = data ) => {
     validLinguages = getValidLanguageOptions()
-    language = testIfCallIsValid( language, validLinguages ) ? language : 'pt-br'
+    objectData.language = testIfCallIsValid( objectData.language, validLinguages ) ? objectData.language : 'pt-br'
 
-    validVesions = getValidVersionOptions( language )
-    version = testIfCallIsValid( version, validVesions ) ? version : validVesions[0]
+    validVesions = getValidVersionOptions( objectData.language )
+    objectData.version = testIfCallIsValid( objectData.version, validVesions ) ? objectData.version : validVesions[0]
 
-    const bible = getBible( language, version )
-    return bible
+    return getBible( objectData )
 }
