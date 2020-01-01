@@ -19,6 +19,12 @@ const testIfChapterIsValid = ( bibleBook, objectData = data ) => {
         : { result: validChapters[0], error: `Book ${objectData.chapter} does not exist, result changed to one.` }
 }
 
+module.exports.getBook = ( objectData = data) => bible( objectData.language, objectData.version ).books[ objectData.book ]
+
+
+const returnChapter = ( objectData = data ) => {
+
+}
 
 module.exports.dataConfig = data
 module.exports.joinCallData = ( callData ) => Object.assign( data, callData)
