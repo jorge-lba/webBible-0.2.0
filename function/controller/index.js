@@ -98,16 +98,21 @@ module.exports.get = function( objectData = dataDefault ) {
     const chapter = getAndTestAndGetIfChapterIsValid( book.content, objectData )
     const verse = getAndTestIfVerseIsValid(chapter.content, objectData)
 
-    
+    result.full = bibleFull
     result.verse = verse
     result.chapter = chapter
     result.book = book
 
     result.title = titles( objectData )
-    result.languagesAndVersions = bible.languagesAndVersions()
+    result.languages = bible.languagesAndVersions()
     result.info = {
+        full: 'get.full - ',
         verse: 'get.verse - return verse ',
-        
+        chapter: 'get.chapter - ',
+        book: 'get.book - ',
+        title: 'get.title - ',
+        languages: 'get.languages - ',
+        info: 'get.info - '
     }
 
     return result

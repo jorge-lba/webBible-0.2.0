@@ -14,5 +14,5 @@ const get = bible.get( dataDefault )
 // console.log( configureCallFormatting( ) )
 // console.log( bible.titles() )
 
-console.log( get.info )
+console.log( get.languages['pt-br'] )
 
