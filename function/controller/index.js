@@ -42,40 +42,26 @@ const configureCallFormatting = ( objectData = dataDefault ) => {
     return objectData
 }
 
-const testIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
+const getAndTestIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
     const validBooks = Object.keys( bibleFull.books )
     return validBooks.indexOf( objectData.book ) > -1 
         ? { result: objectData.book, error: [false, 'No errors found.' ], content: bible(objectData).books[objectData.book] } 
         : { result: validBooks[0], error: [ true, `Book ${objectData.book} does not exist, result changed to Genesis.` ], content: bible(objectData).books['genesis'] } 
 }
 
-const testIfChapterIsValid = ( bookBible, objectData = dataDefault ) => {
+const getAndTestAndGetIfChapterIsValid = ( bookBible, objectData = dataDefault ) => {
     const validChapters = Object.keys( bookBible )
     return validChapters.indexOf( objectData.chapter.toString() ) > -1
         ? { result: objectData.chapter, error: [false, 'No errors found.' ], content: bookBible[objectData.chapter]}
         : { result: validChapters[0], error: [ true, `Chapter ${objectData.chapter} does not exist, result changed to one.` ], content: bookBible[1] }
 }
 
-const testIfVerseIsValid = ( chapterBible, objectData = dataDefault ) => {
+const getAndTestIfVerseIsValid = ( chapterBible, objectData = dataDefault ) => {
     const validVerses = Object.keys( chapterBible )
     return validVerses.indexOf( objectData.verse.toString() ) > -1
         ? { result: objectData.verse, error: [false, 'No errors found.' ], content: chapterBible[objectData.verse] }
         : { result: validVerses[0], error: [ true, `Verse ${objectData.verse} does not exist, result changed to one.` ], content: chapterBible[1] }
 }
-
-const getBook = ( objectData = dataDefault) => bible( objectData )
-                                                    .books[ objectData.book ]
-
-const getChapter = ( objectData = dataDefault ) => bible( objectData )
-                                                        .books[ objectData.book ]
-                                                        [ objectData.chapter ]
-
-const getVerse = ( objectData = dataDefault ) => bible( objectData )
-                                                        .books[ objectData.book ]
-                                                        [ objectData.chapter ]
-                                                        [ objectData.verse ]
- 
-const testIsANumber = ( value ) => isNaN( value ) ? false : true
 
 module.exports.dataConfig = ( objectData = dataDefault ) => objectData
 
@@ -108,9 +94,9 @@ module.exports.get = function( objectData = dataDefault ) {
     
     const result = new Object
     
-    const book = testIfBookIsValid( bibleFull, objectData)
-    const chapter = testIfChapterIsValid( book.content, objectData )
-    const verse = testIfVerseIsValid(chapter.content, objectData)
+    const book = getAndTestIfBookIsValid( bibleFull, objectData)
+    const chapter = getAndTestAndGetIfChapterIsValid( book.content, objectData )
+    const verse = getAndTestIfVerseIsValid(chapter.content, objectData)
 
     
     result.verse = verse
