@@ -15,6 +15,7 @@ const getValidLanguageOptions = () => {
     language.splice( removeIndexJs, 1 )
     return language
 }
+
 const getValidVersionOptions = ( language ) => fs.readdirSync( __dirname+'/'+language )    
 
 const testIfCallIsValid = ( call, options ) => options.indexOf(call) < 0 ? false : true
@@ -22,9 +23,9 @@ const testIfCallIsValid = ( call, options ) => options.indexOf(call) < 0 ? false
 module.exports = ( objectData = data ) => {
     validLinguages = getValidLanguageOptions()
     objectData.language = testIfCallIsValid( objectData.language, validLinguages ) ? objectData.language : 'pt-br'
-
+    
     validVesions = getValidVersionOptions( objectData.language )
     objectData.version = testIfCallIsValid( objectData.version, validVesions ) ? objectData.version : validVesions[0]
-
+    
     return getBible( objectData )
 }
