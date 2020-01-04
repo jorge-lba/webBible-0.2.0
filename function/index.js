@@ -1,7 +1,7 @@
 const bible = require("./controller")
 const dataDefault = {
     language: 'pT - br',
-    version: 'N.v.I',
+    version: 'AA',
     book: ' 0g --- Ê n E s i s',
     chapter: '1',
     verse: '500'
@@ -14,5 +14,5 @@ const get = bible.get( dataDefault )
 // console.log( configureCallFormatting( ) )
 // console.log( bible.titles() )
 
-console.log( get.verse.error )
+console.log( get.info )
 

@@ -45,7 +45,7 @@ const configureCallFormatting = ( objectData = dataDefault ) => {
 const getAndTestIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
     const validBooks = Object.keys( bibleFull.books )
     return validBooks.indexOf( objectData.book ) > -1 
-        ? { result: objectData.book, error: [false, 'No errors found.' ], content: bible(objectData).books[objectData.book] } 
+        ? { result: objectData.book, error: [false, 'No errors found.' ], content: bibleFull.books[objectData.book] } 
         : { result: validBooks[0], error: [ true, `Book ${objectData.book} does not exist, result changed to Genesis.` ], content: bible(objectData).books['genesis'] } 
 }
 
@@ -78,19 +78,19 @@ const joinDefault = ( objectData ) => {
 
 module.exports.languages = bible.getValidLanguageOptions
 
-module.exports.full = ( objectData = dataDefault ) => bible( objectData )
+module.exports.full = ( objectData = dataDefault ) => bible.get( objectData )
 
 const titles = ( objectData = dataDefault ) => {
-    const fullBible = bible( objectData )
+    const fullBible = bible.get( objectData )
     const bibleBooks = Object.keys(fullBible.books)
     return bibleBooks.map( bookName => fullBible.books[bookName].data.title )
 } 
-module.exports.data = ( objectData = dataDefault ) => bible( objectData ).data
+module.exports.data = ( objectData = dataDefault ) => bible.get( objectData ).data
 
 module.exports.get = function( objectData = dataDefault ) {
 
     objectData = configureCallFormatting( objectData )
-    const bibleFull = bible( objectData )
+    const bibleFull = bible.get( objectData )
     
     const result = new Object
     
@@ -104,8 +104,12 @@ module.exports.get = function( objectData = dataDefault ) {
     result.book = book
 
     result.title = titles( objectData )
+    result.languagesAndVersions = bible.languagesAndVersions()
+    result.info = {
+        verse: 'get.verse - return verse ',
+        
+    }
 
     return result
 }
-
 

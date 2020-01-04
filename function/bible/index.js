@@ -20,7 +20,17 @@ const getValidVersionOptions = ( language ) => fs.readdirSync( __dirname+'/'+lan
 
 const testIfCallIsValid = ( call, options ) => options.indexOf(call) < 0 ? false : true
 
-module.exports = ( objectData = data ) => {
+module.exports.languagesAndVersions = () => {
+    const languages = getValidLanguageOptions()
+    const languagesAndVersions = new Object
+    languages.forEach( language => {
+        languagesAndVersions[language] = getValidVersionOptions( language )
+    } )
+
+    return languagesAndVersions
+}
+
+module.exports.get = ( objectData = data ) => {
     validLinguages = getValidLanguageOptions()
     objectData.language = testIfCallIsValid( objectData.language, validLinguages ) ? objectData.language : 'pt-br'
     
