@@ -4,7 +4,19 @@ const dataDefault = {
     version: 'NVI',
     book: 'genesis',
     chapter: 1,
-    verse: 1
+    verse: 1,
+    random: {
+        chapter: {
+            use: false,
+            min: 1,
+            max: 10
+        },
+        verse: {
+            use: false,
+            min: 1,
+            max: 10
+        }
+    }
 }
 
 const assentAndSpecialCaractersRemove = ( text, lineRemove = true ) =>{                                                                
@@ -45,22 +57,52 @@ const configureCallFormatting = ( objectData = dataDefault ) => {
 const getAndTestIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
     const validBooks = Object.keys( bibleFull.books )
     return validBooks.indexOf( objectData.book ) > -1 
-        ? { result: objectData.book, error: [false, 'No errors found.' ], content: bibleFull.books[objectData.book] } 
-        : { result: validBooks[0], error: [ true, `Book ${objectData.book} does not exist, result changed to Genesis.` ], content: bible(objectData).books['genesis'] } 
+        ? { result: objectData.book, 
+            error: [false, 'No errors found.' ], 
+            content: bibleFull.books[objectData.book], 
+            validOptions: validBooks 
+        } 
+
+        : { result: validBooks[0],
+            error: [ true, `Book ${objectData.book} does not exist, result changed to Genesis.` ], 
+            content: bible(objectData).books['genesis'], 
+            validOptions: validBooks 
+        } 
 }
 
 const getAndTestAndGetIfChapterIsValid = ( bookBible, objectData = dataDefault ) => {
     const validChapters = Object.keys( bookBible )
     return validChapters.indexOf( objectData.chapter.toString() ) > -1
-        ? { result: objectData.chapter, error: [false, 'No errors found.' ], content: bookBible[objectData.chapter]}
-        : { result: validChapters[0], error: [ true, `Chapter ${objectData.chapter} does not exist, result changed to one.` ], content: bookBible[1] }
+        ? { result: objectData.chapter, 
+            error: [false, 'No errors found.' ], 
+            content: bookBible[objectData.chapter], 
+            validOptions: validChapters
+        }
+
+        : { result: validChapters[0], 
+            error: [ true, `Chapter ${objectData.chapter} does not exist, result changed to one.` ], 
+            content: bookBible[1],
+            validOptions: validChapters 
+        }
 }
 
 const getAndTestIfVerseIsValid = ( chapterBible, objectData = dataDefault ) => {
     const validVerses = Object.keys( chapterBible )
     return validVerses.indexOf( objectData.verse.toString() ) > -1
-        ? { result: objectData.verse, error: [false, 'No errors found.' ], content: chapterBible[objectData.verse] }
-        : { result: validVerses[0], error: [ true, `Verse ${objectData.verse} does not exist, result changed to one.` ], content: chapterBible[1] }
+        ? { result: objectData.verse, 
+            error: [false, 'No errors found.' ], 
+            content: chapterBible[objectData.verse],
+            validOptions: validVerses
+        }
+        : { result: validVerses[0], 
+            error: [ true, `Verse ${objectData.verse} does not exist, result changed to one.` ], 
+            content: chapterBible[1],
+            validOptions: validVerses
+        }
+}
+
+const getRandom = ( objectData = dataDefault ) => {
+
 }
 
 module.exports.dataConfig = ( objectData = dataDefault ) => objectData
