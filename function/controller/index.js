@@ -9,12 +9,12 @@ const dataDefault = {
         chapter: {
             use: false,
             min: 1,
-            max: 10
+            max: null
         },
         verse: {
             use: false,
             min: 1,
-            max: 10
+            max: null
         }
     }
 }
@@ -72,6 +72,7 @@ const getAndTestIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
 
 const getAndTestAndGetIfChapterIsValid = ( bookBible, objectData = dataDefault ) => {
     const validChapters = Object.keys( bookBible )
+
     return validChapters.indexOf( objectData.chapter.toString() ) > -1
         ? { result: objectData.chapter, 
             error: [false, 'No errors found.' ], 
@@ -102,7 +103,21 @@ const getAndTestIfVerseIsValid = ( chapterBible, objectData = dataDefault ) => {
 }
 
 const getRandom = ( objectData = dataDefault ) => {
+    const random = new Object
 
+    typeof objectData.random.chapter.max !== 'number' 
+        ? random.chapterMax = getAndTestAndGetIfChapterIsValid( bible.get( objectData ).books[ objectData.book ], objectData ).validOptions.length-1
+        : random.chapterMax = objectData.random.chapter.max
+
+    objectData.random.chapter.use === true
+        ? {}
+        : {}
+    
+    objectData.random.verse.use === true
+        ? {}
+        : {}
+
+    return random
 }
 
 module.exports.dataConfig = ( objectData = dataDefault ) => objectData
@@ -115,7 +130,7 @@ module.exports.joinCallData = ( objectData = dataDefault) => {
 }
 const joinDefault = ( objectData ) => {
     Object.assign( dataDefault, objectData)
-    return 'Join Successfully'
+    return objectData
 }
 
 module.exports.languages = bible.getValidLanguageOptions
@@ -132,6 +147,8 @@ module.exports.data = ( objectData = dataDefault ) => bible.get( objectData ).da
 module.exports.get = function( objectData = dataDefault ) {
 
     objectData = configureCallFormatting( objectData )
+    objectData = joinDefault( objectData )
+
     const bibleFull = bible.get( objectData )
     
     const result = new Object
@@ -147,6 +164,7 @@ module.exports.get = function( objectData = dataDefault ) {
 
     result.title = titles( objectData )
     result.languages = bible.languagesAndVersions()
+    result.random = getRandom( objectData )
     result.info = {
         full: 'get.full - ',
         verse: 'get.verse - return verse ',

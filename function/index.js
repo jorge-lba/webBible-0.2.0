@@ -3,8 +3,20 @@ const dataDefault = {
     language: 'pT - br',
     version: 'AA',
     book: ' 0g --- Ê n E s i s',
-    chapter: '1',
-    verse: '500'
+    chapter: '15',
+    verse: '500',
+    random: {
+        chapter: {
+            use: false,
+            min: 1,
+            max: null
+        },
+        verse: {
+            use: false,
+            min: 1,
+            max: null
+        }
+    }
 }
 
 const get = bible.get( dataDefault )
@@ -14,5 +26,5 @@ const get = bible.get( dataDefault )
 // console.log( configureCallFormatting( ) )
 // console.log( bible.titles() )
 
-console.log( get.book.validOptions )
+console.log( get.random )
 
