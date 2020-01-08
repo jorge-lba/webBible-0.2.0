@@ -1,7 +1,7 @@
 const bible = require("./controller")
 const dataDefault = {
-    language: 'pT - br',
-    version: 'AA',
+    language: 'pt-br',
+    version: 'NVI',
     book: ' 0g --- Ê n E s i s',
     chapter: '15',
     verse: '500',
@@ -26,5 +26,5 @@ const get = bible.get( dataDefault )
 // console.log( configureCallFormatting( ) )
 // console.log( bible.titles() )
 
-console.log( get.random.book )
+console.log( get.random.verse )
 

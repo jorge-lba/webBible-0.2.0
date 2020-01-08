@@ -114,17 +114,17 @@ const callRandom = ( bible = bible.get( dataDefault ) , objectData = dataDefault
     const books = getAndTestIfBookIsValid( bible, objectData )
     objectData.book = books.validOptions[ parseInt( getRandomInt( books.validOptions.length - 1 ) ) ]
     result.book.content = bible.books[ objectData.book ]
-    result.book.name = objectData.book
+    result.book.call = result.book.content.data.title
 
     const chapters = getAndTestAndGetIfChapterIsValid( result.book.content, objectData )
     objectData.chapter = chapters.validOptions[ parseInt( getRandomInt( chapters.validOptions.length - 1 ) ) ]
     result.chapter.content = result.book.content[ objectData.chapter ]
-    result.chapter.number = [ objectData.book ,objectData.chapter ]
+    result.chapter.call = [ result.book.call ,objectData.chapter ]
 
     const verses = getAndTestIfVerseIsValid(  result.chapter.content, objectData)
     objectData.verse = verses.validOptions[ parseInt( getRandomInt( verses.validOptions.length - 1 ) ) ]
     result.verse.content = result.chapter.content[ objectData.verse ]
-    result.verse.number = [ objectData.book ,objectData.chapter, objectData.verse ]
+    result.verse.call = [ result.book.call ,objectData.chapter, objectData.verse ]
 
     return result
 }
