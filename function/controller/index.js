@@ -55,6 +55,7 @@ const configureCallFormatting = ( objectData = dataDefault ) => {
 }
 
 const getAndTestIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
+    
     const validBooks = Object.keys( bibleFull.books )
     return validBooks.indexOf( objectData.book ) > -1 
         ? { result: objectData.book, 
@@ -102,22 +103,30 @@ const getAndTestIfVerseIsValid = ( chapterBible, objectData = dataDefault ) => {
         }
 }
 
-const getRandom = ( objectData = dataDefault ) => {
-    const random = new Object
+const callRandom = ( bible = bible.get( dataDefault ) , objectData = dataDefault ) => {
+    const result = new Object
+    result.book = {}
+    result.chapter = {}
+    result.verse = {}
 
-    typeof objectData.random.chapter.max !== 'number' 
-        ? random.chapterMax = getAndTestAndGetIfChapterIsValid( bible.get( objectData ).books[ objectData.book ], objectData ).validOptions.length-1
-        : random.chapterMax = objectData.random.chapter.max
+    const getRandomInt = (  max ) => Math.random() * ( max - 0 ) + 0
 
-    objectData.random.chapter.use === true
-        ? {}
-        : {}
-    
-    objectData.random.verse.use === true
-        ? {}
-        : {}
+    const books = getAndTestIfBookIsValid( bible, objectData )
+    objectData.book = books.validOptions[ parseInt( getRandomInt( books.validOptions.length - 1 ) ) ]
+    result.book.content = bible.books[ objectData.book ]
+    result.book.name = objectData.book
 
-    return random
+    const chapters = getAndTestAndGetIfChapterIsValid( result.book.content, objectData )
+    objectData.chapter = chapters.validOptions[ parseInt( getRandomInt( chapters.validOptions.length - 1 ) ) ]
+    result.chapter.content = result.book.content[ objectData.chapter ]
+    result.chapter.number = [ objectData.book ,objectData.chapter ]
+
+    const verses = getAndTestIfVerseIsValid(  result.chapter.content, objectData)
+    objectData.verse = verses.validOptions[ parseInt( getRandomInt( verses.validOptions.length - 1 ) ) ]
+    result.verse.content = result.chapter.content[ objectData.verse ]
+    result.verse.number = [ objectData.book ,objectData.chapter, objectData.verse ]
+
+    return result
 }
 
 module.exports.dataConfig = ( objectData = dataDefault ) => objectData
@@ -164,7 +173,7 @@ module.exports.get = function( objectData = dataDefault ) {
 
     result.title = titles( objectData )
     result.languages = bible.languagesAndVersions()
-    result.random = getRandom( objectData )
+    result.random = callRandom( bibleFull ,objectData )
     result.info = {
         full: 'get.full - ',
         verse: 'get.verse - return verse ',
