@@ -26,5 +26,5 @@ const get = bible.get( dataDefault )
 // console.log( configureCallFormatting( ) )
 // console.log( bible.titles() )
 
-console.log( get.random.verse )
+console.log( get.random().verse )
 

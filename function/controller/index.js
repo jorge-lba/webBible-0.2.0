@@ -158,30 +158,33 @@ module.exports.get = function( objectData = dataDefault ) {
     objectData = configureCallFormatting( objectData )
     objectData = joinDefault( objectData )
 
-    const bibleFull = bible.get( objectData )
+    const bibleFull = () => bible.get( objectData )
+    const callTitles = () => titles( objectData )
     
     const result = new Object
     
-    const book = getAndTestIfBookIsValid( bibleFull, objectData)
-    const chapter = getAndTestAndGetIfChapterIsValid( book.content, objectData )
-    const verse = getAndTestIfVerseIsValid(chapter.content, objectData)
+    const book = () => getAndTestIfBookIsValid( bibleFull(), objectData)
+    const chapter = () => getAndTestAndGetIfChapterIsValid( book().content, objectData )
+    const verse = () => getAndTestIfVerseIsValid(chapter().content, objectData)
+
+    const random = () => callRandom( bibleFull() ,objectData )
 
     result.full = bibleFull
     result.verse = verse
     result.chapter = chapter
     result.book = book
 
-    result.title = titles( objectData )
-    result.languages = bible.languagesAndVersions()
-    result.random = callRandom( bibleFull ,objectData )
+    result.titles = callTitles
+    result.languages = bible.languagesAndVersions
+    result.random = random
     result.info = {
-        full: 'get.full - ',
-        verse: 'get.verse - return verse ',
-        chapter: 'get.chapter - ',
-        book: 'get.book - ',
-        title: 'get.title - ',
-        languages: 'get.languages - ',
-        info: 'get.info - '
+        full: 'get.full() ',
+        verse: 'get.verse() ',
+        chapter: 'get.chapter() ',
+        book: 'get.book() ',
+        title: 'get.title() ',
+        languages: 'get.languages() ',
+        info: 'get.info '
     }
 
     return result
