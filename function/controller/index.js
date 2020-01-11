@@ -109,22 +109,48 @@ const callRandom = ( bible = bible.get( dataDefault ) , objectData = dataDefault
     result.chapter = {}
     result.verse = {}
 
-    const getRandomInt = (  max ) => Math.random() * ( max - 0 ) + 0
+    const getRandomInt = (  max, min = 0 ) => Math.random() * ( max - min ) + min
+
+    let maxChapter = objectData.random.chapter.max
+    let maxVerse = objectData.random.verse.max
+    let minChapter = objectData.random.chapter.min
+    let minVerse = objectData.random.verse.min
 
     const books = getAndTestIfBookIsValid( bible, objectData )
-    objectData.book = books.validOptions[ parseInt( getRandomInt( books.validOptions.length - 1 ) ) ]
-    result.book.content = bible.books[ objectData.book ]
+    
+    const dataBook = books.validOptions[ parseInt( getRandomInt( books.validOptions.length - 1 ) ) ]
+    result.book.content = bible.books[ dataBook ]
     result.book.call = result.book.content.data.title
-
+    
     const chapters = getAndTestAndGetIfChapterIsValid( result.book.content, objectData )
-    objectData.chapter = chapters.validOptions[ parseInt( getRandomInt( chapters.validOptions.length - 1 ) ) ]
-    result.chapter.content = result.book.content[ objectData.chapter ]
-    result.chapter.call = [ result.book.call ,objectData.chapter ]
+    const maxChaptersValid = chapters.validOptions.length - 1
+    
+    minChapter
+        ? minChapter = maxChaptersValid < minChapter ? maxChaptersValid : minChapter
+        : minChapter = 1
+
+    maxChapter
+        ? maxChapter = maxChaptersValid < maxChapter ? maxChaptersValid : maxChapter
+        : maxChapter = maxChaptersValid
+
+    const dataChapter = chapters.validOptions[ parseInt( getRandomInt( maxChapter, minChapter -1 ) ) ]
+    result.chapter.content = result.book.content[ dataChapter ]
+    result.chapter.call = [ result.book.call ,dataChapter ]
 
     const verses = getAndTestIfVerseIsValid(  result.chapter.content, objectData)
-    objectData.verse = verses.validOptions[ parseInt( getRandomInt( verses.validOptions.length - 1 ) ) ]
-    result.verse.content = result.chapter.content[ objectData.verse ]
-    result.verse.call = [ result.book.call ,objectData.chapter, objectData.verse ]
+    const maxVersesValid = verses.validOptions.length - 1
+
+    minVerse
+        ? minVerse = maxVersesValid < minVerse ? maxVersesValid : minVerse - 1
+        : minVerse = 1
+
+    maxVerse
+        ? maxVerse = maxVersesValid < maxVerse ? maxVersesValid : maxVerse
+        : maxVerse = maxVersesValid
+
+    const dataVerse = verses.validOptions[ parseInt( getRandomInt( maxVerse, minVerse ) ) ]
+    result.verse.content = result.chapter.content[ dataVerse ]
+    result.verse.call = [ result.book.call , dataChapter, dataVerse ]
 
     return result
 }
