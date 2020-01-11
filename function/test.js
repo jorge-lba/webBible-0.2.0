@@ -1,11 +1,12 @@
 const bible = require("./index")
+
 const dataDefault = {
     dataDefault: {
-        // language: 'pt-br',
-        // version: 'NVI',
+        language: 'pt-br',
+        version: 'NVI',
         book: ' amos',
         chapter: '1',
-        verse: '1',
+        verse: '10',
         random: {
             chapter: {
                 use: false,
@@ -19,20 +20,20 @@ const dataDefault = {
             }
         }
     },
-    call: ['verse']
+    call: ['random-verse']
 }
 
-console.log( bible(dataDefault)[0])
+// Opções disponiveis para call: [
+//     'languages',-----------------| Retorna os idiomas e versoes disponiveis
+//     'full' ----------------------| Retorna a Biblia Completa
+//     'titles', -------------------| Retorna Os Livros Disponiveis
+//     'book', ---------------------| Retorna o livro solicitado 
+//     'chapter', ------------------| Retorna o captulo solicitado
+//     'verse', --------------------| Retorna o versiculo solicitado
+//     'random-chapter', -----------| Retorna um captulo aleatorio
+//     'random-verse',  ------------| Retorna um versiculo aleatorio
+// ]
 
-// console.log(bible.full().books.genesis.data);
-// console.log(bible.titles())
-// console.log(bible.data());
-// console.log(bible.dataConfig)
-// console.log(bible.joinCallData( data1 ))
-// console.log(bible.dataConfig)
-// console.log(bible.getBook()[1][1])
-// console.log(bible.getChapter())
-// console.log(bible.getVerse())
-// console.log(bible.titles())
+// Os reultado retona um objeto dentro de um array na mesma sequencias que foi feita a chamada no dataDefault.call
 
-// console.log(bible.dataConfig())
+console.log( bible(dataDefault))

@@ -55,7 +55,6 @@ const configureCallFormatting = ( objectData = dataDefault ) => {
 }
 
 const getAndTestIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
-    
     const validBooks = Object.keys( bibleFull.books )
     return validBooks.indexOf( objectData.book ) > -1 
         ? { result: objectData.book, 
@@ -164,7 +163,6 @@ module.exports.joinCallData = ( objectData = dataDefault) => {
     return joinDefault( objectData ) 
 }
 const joinDefault = ( objectData ) => {
-    
     return { ...dataDefault, ...objectData}
 }
 
@@ -177,10 +175,10 @@ const titles = ( objectData = dataDefault ) => {
     const bibleBooks = Object.keys(fullBible.books)
     return bibleBooks.map( bookName => fullBible.books[bookName].data.title )
 } 
+
 module.exports.data = ( objectData = dataDefault ) => bible.get( objectData ).data
 
 module.exports.get = function( objectData = dataDefault ) {
-
     objectData = joinDefault( objectData )
     objectData = configureCallFormatting( objectData )
 
