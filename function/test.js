@@ -9,12 +9,10 @@ const dataDefault = {
         verse: '10',
         random: {
             chapter: {
-                use: false,
                 min: null,
                 max: null
             },
             verse: {
-                use: 1,
                 min: null,
                 max: null
             }
