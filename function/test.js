@@ -1,9 +1,9 @@
 const bible = require("./index")
 const dataDefault = {
     dataDefault: {
-        language: 'pt-br',
-        version: 'NVI',
-        book: ' genesis',
+        // language: 'pt-br',
+        // version: 'NVI',
+        book: ' amos',
         chapter: '1',
         verse: '1',
         random: {

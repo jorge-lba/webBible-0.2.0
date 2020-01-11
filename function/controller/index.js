@@ -164,8 +164,8 @@ module.exports.joinCallData = ( objectData = dataDefault) => {
     return joinDefault( objectData ) 
 }
 const joinDefault = ( objectData ) => {
-    Object.assign( dataDefault, objectData)
-    return objectData
+    
+    return { ...dataDefault, ...objectData}
 }
 
 module.exports.languages = bible.getValidLanguageOptions
@@ -181,8 +181,8 @@ module.exports.data = ( objectData = dataDefault ) => bible.get( objectData ).da
 
 module.exports.get = function( objectData = dataDefault ) {
 
-    objectData = configureCallFormatting( objectData )
     objectData = joinDefault( objectData )
+    objectData = configureCallFormatting( objectData )
 
     const bibleFull = () => bible.get( objectData )
     const callTitles = () => titles( objectData )
