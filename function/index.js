@@ -8,56 +8,52 @@ const dataDefault = {
         verse: '1',
         random: {
             chapter: {
-                use: false,
                 min: null,
                 max: null
             },
             verse: {
-                use: 1,
                 min: null,
                 max: null
             }
         }
     },
-    call: ['random-verse','book','chapter','verse']
+    call: ['random-verse','book','chapter','verse','random-chapter']
 }
 
 
 
-const callRandom = ( objectData = dataDefault, bible ) => {
-    const callVerse = objectData.random.verse.use
-    const callChapter = objectData.random.chapter.use
 
-    return callVerse
-        ? bible.random( objectData ).verse
-        : callChapter
-            ? bible.random( objectData ).chapter
-            : "No call to aliatorio was made!"
+const callRandomVerse = ( objectData = dataDefault, bible ) => bible.random( objectData ).verse
 
-}
+const callRandomChapter = ( objectData = dataDefault, bible ) => bible.random( objectData ).chapter
 
 const resultCall = ( objectData = dataDefault) => {
 
-    const cases = ['random-verse','book','chapter','verse']
+    const cases = ['random-chapter','book','chapter','verse', 'random-verse']
     const get = bible.get
     const paransCall = objectData.dataDefault
     const calls = objectData.call
 
-    const result = calls.map( call => {
+    let result = calls.map( call => {
         switch( call ){
             case cases[0]:
-                return callRandom( objectData.dataDefault, get( paransCall ) )
+                return callRandomChapter( objectData.dataDefault, get( paransCall ) )
             case cases[1]:
                 return get( paransCall ).book()
             case cases[2]:
                 return get( paransCall ).chapter()
             case cases[3]:
                 return get( paransCall ).verse()
+            case cases[4]:
+                return callRandomVerse( objectData.dataDefault, get( paransCall ) )
             default:
-                return 'Test'
+                return 'Invalid call!'
         }
     } )
     
+    result[0]
+     ? {}
+     : result = [ 'No calls were made!' ]
 
     return result
 }

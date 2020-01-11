@@ -4,8 +4,8 @@ const dataDefault = {
         language: 'pt-br',
         version: 'NVI',
         book: ' genesis',
-        chapter: '2',
-        verse: '5',
+        chapter: '1',
+        verse: '1',
         random: {
             chapter: {
                 use: false,
@@ -19,18 +19,10 @@ const dataDefault = {
             }
         }
     },
-    call: ['verse','random-verse']
+    call: ['verse']
 }
 
-const data1 = {
-    language: 'EN',
-    version: 'NVI',
-    book: 'GENesiS',
-    chapter: '1',
-    verse: '1'
-}
-
-console.log( bible(dataDefault) )
+console.log( bible(dataDefault)[0])
 
 // console.log(bible.full().books.genesis.data);
 // console.log(bible.titles())
