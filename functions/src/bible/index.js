@@ -30,7 +30,7 @@ module.exports.languagesAndVersions = () => {
     return languagesAndVersions
 }
 
-module.exports.get = ( objectData = data ) => {
+module.exports.get = function ( objectData = data ) {
     validLinguages = getValidLanguageOptions()
     objectData.language = testIfCallIsValid( objectData.language, validLinguages ) ? objectData.language : 'pt-br'
     

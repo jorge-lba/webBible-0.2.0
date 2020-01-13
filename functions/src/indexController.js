@@ -1,4 +1,4 @@
-const bible = require( '../bible' )
+const bible = require( './bible/index.js' )
 const dataDefault = {
     language: 'pt-br',
     version: 'NVI',
@@ -65,7 +65,7 @@ const getAndTestIfBookIsValid = ( bibleFull , objectData = dataDefault ) => {
 
         : { result: validBooks[0],
             error: [ true, `Book ${objectData.book} does not exist, result changed to Genesis.` ], 
-            content: bible(objectData).books['genesis'], 
+            content: bible.get(objectData).books['genesis'], 
             validOptions: validBooks 
         } 
 }
@@ -213,4 +213,3 @@ module.exports.get = function( objectData = dataDefault ) {
 
     return result
 }
-

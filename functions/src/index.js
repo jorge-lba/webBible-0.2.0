@@ -1,4 +1,4 @@
-const bible = require("./controller")
+const bible = require("./controller/index.js")
 const dataDefault = {
     dataDefault: {
         language: 'pt-br',
