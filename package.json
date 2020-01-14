@@ -8,6 +8,7 @@
   },
   "author": "Jorge Alegretti",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
   }
 }
