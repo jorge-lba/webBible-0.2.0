@@ -1,25 +1,20 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import ModalDropdown from 'react-native-modal-dropdown'
+
+import Dropdown from '../../utils/Dropdown'
 
 function Bible(){
     return( 
         <View style={ styles.searchBible } >
-            
-            <ModalDropdown 
-                options={optionsBook()} 
-                defaultValue={ 'Genesis' }
-                style={ styles.dropdownButton }
-                textStyle= { styles.dropdownTextStyle }
-                dropdownStyle={ styles.dropdownDropbox }
-                dropdownTextStyle={ styles.dropdownDropboxTextStyle }
+            <Dropdown 
+                buttonStyle={  styles.dropdownButton  }
+                buttonStyleText={ styles.dropdownTextStyle }
+                buttonText={ 'Genesis' }    
             />
-            <ModalDropdown 
-                options={optionsBook()} 
-                defaultValue={ '01' }
-                style={ styles.dropdownButton }
-                textStyle= { styles.dropdownTextStyle }
-                dropdownStyle={ styles.dropdownDropbox }
+            <Dropdown 
+                buttonStyle={  styles.dropdownButton  }
+                buttonStyleText={ styles.dropdownTextStyle }
+                buttonText={ '01' }    
             />
         </View>
     )
@@ -37,13 +32,17 @@ const styles = StyleSheet.create({
     },
     dropdownButton: {
         flex: 1,
-        width: 150,
+        flexDirection: 'row',
+        width: 180,
         height: 56,
+        backgroundColor: '#ffffff',
+        elevation: 5,
         paddingTop: 10,
         paddingHorizontal: 10,
     },
     dropdownTextStyle: {
         fontSize: 24,
+        paddingHorizontal: 10,
         fontWeight: 'bold',
     },
     dropdownDropbox: {
