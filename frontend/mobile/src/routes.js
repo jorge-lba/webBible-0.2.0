@@ -18,7 +18,15 @@ const Routes = createAppContainer(
                 title: 'Inicio'
             }
         },
-    })
+    },  {
+        defaultNavigationOptions: {
+            headerTintColor: '#FFF',
+            headerStyle: {
+                backgroundColor: '#7D40E7',
+                
+            },
+        }
+    },)
 )
 
 export default Routes
