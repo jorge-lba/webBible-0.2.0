@@ -1,20 +1,20 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
-import Dropdown from '../../utils/Dropdown'
+import Dropdown from '../../utils/dropdown/Dropdown'
 
 function Bible(){
     return( 
         <View style={ styles.searchBible } >
             <Dropdown 
-                buttonStyle={  styles.dropdownButton  }
+                dButtonStyle={  styles.dropdownButton  }
                 buttonStyleText={ styles.dropdownTextStyle }
-                buttonText={ 'Genesis' }    
+                valueButton={ 'Genesis' }    
             />
             <Dropdown 
-                buttonStyle={  styles.dropdownButton  }
+                dButtonStyle={  styles.dropdownButton2  }
                 buttonStyleText={ styles.dropdownTextStyle }
-                buttonText={ '01' }    
+                valueButton={ '001' }    
             />
         </View>
     )
@@ -29,16 +29,19 @@ const styles = StyleSheet.create({
     searchBible: {
         flexDirection: 'row',
         elevation: 1.5,
-    },
-    dropdownButton: {
-        flex: 1,
-        flexDirection: 'row',
-        width: 180,
         height: 56,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#888888',
         elevation: 5,
         paddingTop: 10,
         paddingHorizontal: 10,
+    },
+    dropdownButton: {
+        width: 180,
+        backgroundColor: '#FFF',
+    },
+    dropdownButton2: {
+        width: 74,
+        backgroundColor: '#0f5'
     },
     dropdownTextStyle: {
         fontSize: 24,
