@@ -1,9 +1,11 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
 function Bible(){
     return( 
-        <View>Biblia</View>
+        <View>
+            <Text>Biblia</Text>
+        </View>
     )
 }
 

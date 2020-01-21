@@ -6,8 +6,18 @@ import Bible from './pages/bible'
 
 const Routes = createAppContainer( 
     createStackNavigator({
-        Main,
-        Bible
+        Bible: {
+            screen: Bible,
+            navigationOptions:{
+                title: 'Bíblia'
+            }
+        },
+        Main: {
+            screen: Main,
+            navigationOptions: {
+                title: 'Inicio'
+            }
+        },
     })
 )
 

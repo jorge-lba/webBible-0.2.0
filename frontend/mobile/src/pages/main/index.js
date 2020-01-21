@@ -1,10 +1,12 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
 function Main() {
     return(
-        <View> Home Page ! </View>
+        <View> 
+            <Text>Home Page !</Text>
+        </View>
     )
 }
 
-export default Home
+export default Main
