@@ -1,27 +1,53 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import ModalDropdown from 'react-native-modal-dropdown'
+// import Dropdown from '../../utils/Dropdown'
+import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
 
 function Bible(){
+    let data = [{
+        value: 'Banana',
+      }, {
+        value: 'Mango',
+      }, {
+        value: 'Pear',
+      },{
+        value: 'Banana',
+      }, {
+        value: 'Mango',
+      }, {
+        value: 'Pear',
+      },{
+        value: 'Banana',
+      }, {
+        value: 'Mango',
+      }, {
+        value: 'Pear',
+      },{
+        value: 'Banana',
+      }, {
+        value: 'Mango',
+      }, {
+        value: 'Pear',
+      },{
+        value: 'Banana',
+      }, {
+        value: 'Mango',
+      }, {
+        value: 'Pear',
+      }];
+
     return( 
+    <>
         <View style={ styles.searchBible } >
-            
-            <ModalDropdown 
-                options={optionsBook()} 
-                defaultValue={ 'Genesis' }
-                style={ styles.dropdownButton }
-                textStyle= { styles.dropdownTextStyle }
-                dropdownStyle={ styles.dropdownDropbox }
-                dropdownTextStyle={ styles.dropdownDropboxTextStyle }
-            />
-            <ModalDropdown 
-                options={optionsBook()} 
-                defaultValue={ '01' }
-                style={ styles.dropdownButton }
-                textStyle= { styles.dropdownTextStyle }
-                dropdownStyle={ styles.dropdownDropbox }
-            />
+            <Dropdown
+            itemCount = { 8 }
+            dropdownPosition={ 0 }
+            dropdownOffset={ { top: 18, left: 0 } }
+            containerStyle={ { width: 120, position: 'absolute', left: 20 } }
+            data={data}
+        />
         </View>
+    </>
     )
 }
 
@@ -33,7 +59,9 @@ function optionsBook(){
 const styles = StyleSheet.create({
     searchBible: {
         flexDirection: 'row',
-        elevation: 1.5,
+        height: 60,
+        backgroundColor: '#FFF',
+        elevation: 2,
     },
     dropdownButton: {
         flex: 1,
