@@ -47,8 +47,8 @@ function Bible(){
 
     function Item({ title }) {
       return (
-        <View style={{ paddingHorizontal: 8, paddingVertical: 4, justifyContent: 'center', backgroundColor: '#FAFAFA', borderBottomColor: '#CCC', borderBottomWidth: 1 }}>
-          <Text style={styles.title}>{title}</Text>
+        <View style={{ paddingHorizontal: 16, paddingVertical: 8, justifyContent: 'center', backgroundColor: '#FAFAFA', borderBottomColor: '#CCC', borderBottomWidth: 1 }}>
+          <Text style={{ fontSize: 16, textAlign: 'left' }}>{title}</Text>
         </View>
       );
     }

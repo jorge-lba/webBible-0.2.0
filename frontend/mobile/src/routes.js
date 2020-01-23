@@ -1,5 +1,8 @@
+import React from 'react'
+import { Button, TouchableOpacity } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import Main from './pages/main'
 import Bible from './pages/bible'
@@ -9,7 +12,12 @@ const Routes = createAppContainer(
         Bible: {
             screen: Bible,
             navigationOptions:{
-                title: 'Bíblia'
+                title: 'Bíblia',
+                headerRight: () => (
+                    <TouchableOpacity onPress={ ( ) => console.log( 'Press' ) } >   
+                        <MaterialIcons name='my-location' size={ 20 } color='#FFF'/>
+                    </TouchableOpacity>
+                  ),
             }
         },
         Main: {
