@@ -10,10 +10,10 @@ function HeaderBible() {
 
     function modalConfig(){
 
-        console.log( 'ESS' )
         setConfig(previousState => (
             { isShowingText: !previousState.isShowingText }
-          ))
+            ))
+            console.log( ` SetModal: ${ config.isShowingText } ` )
     }
 
     return (<>

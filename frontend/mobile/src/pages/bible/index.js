@@ -37,18 +37,21 @@ function Bible(){
 
     const data2 = [ 1, 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
                     'ihdasoihdoahdoasiohdoiosnopiecne iojdoi pofjneoif fn pojfwmfd pof enfpeofjpewojf poif fokj0ewpoj fepoewjf pewjf pofj epof epofj epwokv e-woj ewpfoiew fmpeojf epof epwofuj epofuie p9ofj epfoke ik0epw9oijf e peojfekjwefpoejf w',
-                    22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40 ].map( item => {
+                    22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40 ].map( (item, index )=> {
       return{
-        id: `${item}`,
+        id: `${index}`,
         title:item,
         value: item
       }
     } )
 
-    function Item({ title }) {
+    function Item({title}) {
       return (
         <View style={{ paddingHorizontal: 16, paddingVertical: 8, justifyContent: 'center', backgroundColor: '#FAFAFA', borderBottomColor: '#CCC', borderBottomWidth: 1 }}>
-          <Text style={{ fontSize: 16, textAlign: 'left' }}>{title}</Text>
+          <Text style={{ fontSize: 16, textAlign: 'left' }}>
+          <Text style={{ color: '#888' }} >{ "  "+ title.id + "  "}</Text>
+            
+            {title.value}</Text>
         </View>
       );
     }
@@ -73,7 +76,7 @@ function Bible(){
         </View>
         <FlatList
           data={data2}
-          renderItem={({ item }) => <Item title={item.title} />}
+          renderItem={({ item }) => <Item title={item} />}
           keyExtractor={item => item.id}
         />
         <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
