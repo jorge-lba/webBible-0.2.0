@@ -17,8 +17,8 @@ function HeaderBible() {
     }
 
     return (<>
-        <TouchableOpacity onPress={ ( ) => modalConfig() } >   
-            <MaterialIcons name='my-location' size={ 20 } color='#FFF'/>
+        <TouchableOpacity onPress={ ( ) => modalConfig() } style={ { marginHorizontal: 8, width: 32 } } >   
+            <MaterialIcons name='more-vert' size={ 20 } color='#FFF'/>
         </TouchableOpacity>
 
         
@@ -42,7 +42,7 @@ function HeaderBible() {
                     
                 } }>
                     <Text style={{  margin: 20, flexDirection: 'column', justifyContent:'center', alignContent:'center' }}> Modal is open! </Text>
-                    <MaterialIcons name='my-location' size={ 20 } color='#000'/>
+                    <MaterialIcons name='more-vert' size={ 20 } color='#000'/>
                 </View>
             </Modal>
 

@@ -49,7 +49,7 @@ function Bible(){
       return (
         <View style={{ paddingHorizontal: 16, paddingVertical: 8, justifyContent: 'center', backgroundColor: '#FAFAFA', borderBottomColor: '#CCC', borderBottomWidth: 1 }}>
           <Text style={{ fontSize: 16, textAlign: 'left' }}>
-          <Text style={{ color: '#888' }} >{ "  "+ title.id + "  "}</Text>
+          <Text style={{ color: '#888', fontSize: 12 }} >{ "  "+ title.id + "  "}</Text>
             
             {title.value}</Text>
         </View>
