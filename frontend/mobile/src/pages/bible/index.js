@@ -128,6 +128,7 @@ function Bible(props){
     const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
      
     const dropdownBooks = (<Dropdown
+      valor='Genêsis'
       itemCount = { 10 }
       dropdownPosition={ 0 }
       dropdownOffset={ { top: 18, left: 0 } }
@@ -141,6 +142,7 @@ function Bible(props){
         <View style={ styles.searchBible } >
             {dropdownBooks}
             <Dropdown
+                valor='1'
                 itemCount = { 10 }
                 dropdownPosition={ 0 }
                 dropdownOffset={ { top: 18, left: 0 } }
