@@ -111,28 +111,43 @@ function Bible(props){
       } )
     }
 
+    function getValueDropdown( option ,value ){
+        setConfig( ( config ) => {
+          return {
+            ...config,
+            bibleCall: {
+              book: option === 'book'? value : config.bibleCall.book,
+              chapter: option === 'chapter'? value : config.bibleCall.chapter
+            }
+          }
+        } )
+    }
     
     const BOOKS = getTitleBooks()
     const CHAPTERS = getChapters( config.bibleCall.book)
     const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
      
+    const dropdownBooks = (<Dropdown
+      itemCount = { 10 }
+      dropdownPosition={ 0 }
+      dropdownOffset={ { top: 18, left: 0 } }
+      containerStyle={ { width: 120, justifyContent: 'center', marginHorizontal: 16} }
+      data={ BOOKS }
+      onChangeText={( object )=> getValueDropdown( 'book',object ) }
+  />)
 
     return( 
     <>  
         <View style={ styles.searchBible } >
-            <Dropdown
-                itemCount = { 10 }
-                dropdownPosition={ 0 }
-                dropdownOffset={ { top: 18, left: 0 } }
-                containerStyle={ { width: 120, justifyContent: 'center', marginHorizontal: 16} }
-                data={ BOOKS }
-            />
+            {dropdownBooks}
             <Dropdown
                 itemCount = { 10 }
                 dropdownPosition={ 0 }
                 dropdownOffset={ { top: 18, left: 0 } }
                 containerStyle={ { width: 70, justifyContent: 'center', marginHorizontal: 16} }
                 data={CHAPTERS}
+                onChangeText={( object )=> getValueDropdown('chapter', object ) }
+
             />
         </View>
         <FlatList
