@@ -2,61 +2,48 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, FlatList } from 'react-native'
 import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
 
+const bible = require( '../../content/bible/index.js' )
+
+const dataDefault = {
+  dataDefault: {
+      language: 'pt-br',
+      version: 'NVI',
+      book: ' amos',
+      chapter: '1',
+      verse: '10',
+      random: {
+          chapter: {
+              min: null,
+              max: null
+          },
+          verse: {
+              min: null,
+              max: null
+          }
+      }
+  },
+  call: ['random-verse', 'random-verse', 'verse']
+}
+
 function Bible(props){
 
     const sizeNav = props.navigation.getParam( 'size' )
 
-    const [ config, setConfig ] = useState( { textSize: 10 } )
+    const [ config, setConfig ] = useState( { textSize: 10, bibleCall: {
+      book: 'genesis',
+      chapter: 1
+    } } )
 
     useEffect(()=> {
       function load() {
-        setConfig( (  ) => { return {textSize: sizeNav} })
+        setConfig( ( config ) => { return {
+          ...config,
+          textSize: sizeNav
+        } })
 
       }
       load()
     },[sizeNav])
-
-    let data = [{
-        value: 'Banana',
-      }, {
-        value: 'Mango',
-      }, {
-        value: 'Pear',
-      },{
-        value: 'Banana',
-      }, {
-        value: 'Mango',
-      }, {
-        value: 'Pear',
-      },{
-        value: 'Banana',
-      }, {
-        value: 'Mango',
-      }, {
-        value: 'Pear',
-      },{
-        value: 'Banana',
-      }, {
-        value: 'Mango',
-      }, {
-        value: 'Pear',
-      },{
-        value: 'Banana',
-      }, {
-        value: 'Mango',
-      }, {
-        value: 'Pear',
-      }];
-
-    const data2 = [ 1, 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-                    'ihdasoihdoahdoasiohdoiosnopiecne iojdoi pofjneoif fn pojfwmfd pof enfpeofjpewojf poif fokj0ewpoj fepoewjf pewjf pofj epof epofj epwokv e-woj ewpfoiew fmpeojf epof epwofuj epofuie p9ofj epfoke ik0epw9oijf e peojfekjwefpoejf w',
-                    22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40 ].map( (item, index )=> {
-      return{
-        id: `${index}`,
-        title:item,
-        value: item
-      }
-    } )
 
     function Item({title}) {
       return (
@@ -64,32 +51,93 @@ function Bible(props){
           <Text style={{ fontSize: config.textSize, textAlign: 'left' }}>
           <Text style={{ color: '#888', fontSize: 12 }} >{ "  "+ title.id + "  "}</Text>
             
-            {title.value}</Text>
+            {title.title}</Text>
         </View>
       );
     }
+
+    function optionsBook(){
+      return bible( { call:[ 'titles' ] } )
+    }
+
+    const getTitleBooks = () => {
+      const [books] = optionsBook()
+      return books.map( ( book, index ) => {
+        return {
+          id: index+1,
+          title: book,
+          value: book
+        }
+      } )
+    }
+
+    function getChapters( book ){
+
+      const chapters = bible({
+        dataDefault:{
+          book: book
+        },
+        call:['chapter']
+      })[0].validOptions
+
+      chapters.pop()
+
+      return chapters.map( (item, index )=> {
+        return{
+          id: `${index}`,
+          title:item,
+          value: item
+        }
+      }
+      )
+
+    }
+
+    function getVerses( book, chapter ){
+      const chapters = bible({
+        dataDefault:{
+          book: book,
+          chapter: chapter
+        },
+        call:['chapter']
+      })[0].content
+
+      const contentChapter = Object.entries(chapters)
+      return contentChapter.map( ( content ) =>{
+        return{
+          id: content[0],
+          title: content[1]
+        }
+      } )
+    }
+
+    
+    const BOOKS = getTitleBooks()
+    const CHAPTERS = getChapters( config.bibleCall.book)
+    const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
+     
 
     return( 
     <>  
         <View style={ styles.searchBible } >
             <Dropdown
-                itemCount = { 8 }
+                itemCount = { 10 }
                 dropdownPosition={ 0 }
                 dropdownOffset={ { top: 18, left: 0 } }
                 containerStyle={ { width: 120, justifyContent: 'center', marginHorizontal: 16} }
-                data={data}
+                data={ BOOKS }
             />
             <Dropdown
-                itemCount = { 8 }
+                itemCount = { 10 }
                 dropdownPosition={ 0 }
                 dropdownOffset={ { top: 18, left: 0 } }
                 containerStyle={ { width: 70, justifyContent: 'center', marginHorizontal: 16} }
-                data={data2}
+                data={CHAPTERS}
             />
         </View>
         <FlatList
-          data={data2}
-          renderItem={({ item }) => <Item title={item} />}
+          data={VERSES}
+          renderItem={({ item }) => <Item title={ item } />}
           keyExtractor={item => item.id}
         />
         <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
@@ -97,9 +145,6 @@ function Bible(props){
     )
 }
 
-function optionsBook(){
-    return [ 'Genesis', 'Exodos','Genesis', 'Exodos','Genesis', 'Exodos','Genesis', 'Exodos' ]
-}
 
 
 const styles = StyleSheet.create({

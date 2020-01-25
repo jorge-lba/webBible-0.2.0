@@ -6,8 +6,6 @@ import Bible from './index'
 
 const test = { size: 12 }
 
-module.exports.test = test
-
 function HeaderBible( props ) { 
  
     const [ config, setConfig ] = useState( { isShowingText: false, textSize:16 } )
