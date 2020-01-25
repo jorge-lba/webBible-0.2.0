@@ -1,23 +1,55 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, Modal, Text, View, TouchableHighlight, TouchableWithoutFeedback } from 'react-native'
-import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
+import { TouchableOpacity, Modal, Text, View, TouchableHighlight, TouchableWithoutFeedback, Button } from 'react-native'
+import { NavigationEvents } from 'react-navigation'
 import { MaterialIcons } from '@expo/vector-icons'
+import Bible from './index'
 
-function HeaderBible() { 
-    
-    const [ config, setConfig ] = useState( { isShowingText: false } )
+const test = { size: 12 }
+
+module.exports.test = test
+
+function HeaderBible( props ) { 
+ 
+    const [ config, setConfig ] = useState( { isShowingText: false, textSize:16 } )
 
     function modalConfig(){
+        setConfig(previousState => {
+            console.log( previousState )            
+            return { 
+                ...previousState,
+                isShowingText: !previousState.isShowingText, 
+            }
+        })
+    }
 
-        setConfig(previousState => (
-            { isShowingText: !previousState.isShowingText }
-            ))
-            console.log( ` SetModal: ${ config.isShowingText } ` )
+    function addFontSize( value ){
+        setConfig( previousState => {
+            test.size = previousState.textSize+value
+            props.reload( { size: test.size } )
+            return {
+                ...previousState,
+                textSize: previousState.textSize+value
+            }
+        } )
+    }
+    
+    function subFontSize( value ){
+        setConfig( previousState => {
+            test.size= previousState.textSize-value
+            props.reload( { size: test.size } )
+            return {
+                ...previousState,
+                textSize: previousState.textSize-value
+            }
+        } )
     }
 
     return (<>
-        <TouchableOpacity onPress={ ( ) => modalConfig() } style={ { marginHorizontal: 8, width: 32 } } >   
+        <TouchableOpacity onPress={ ( ) => {
+            modalConfig() 
+
+        }
+        } style={ { marginHorizontal: 8, width: 32 } } >   
             <MaterialIcons name='more-vert' size={ 20 } color='#FFF'/>
         </TouchableOpacity>
 
@@ -41,13 +73,11 @@ function HeaderBible() {
                     justifyContent:'center',
                     
                 } }>
-                    <Text style={{  margin: 20, flexDirection: 'column', justifyContent:'center', alignContent:'center' }}> Modal is open! </Text>
-                    <MaterialIcons name='more-vert' size={ 20 } color='#000'/>
+                    <Text style={{  margin: 20, flexDirection: 'column', justifyContent:'space-between', alignContent:'center', flexDirection:'row' }}> {test.size} </Text>
+                    <Button onPress={ () => addFontSize(2) } title="Mais +" ></Button>
+                    <Button onPress={ () => subFontSize(2) } title="Menos -"></Button>
                 </View>
             </Modal>
-
-
-
     </>)
 }
 

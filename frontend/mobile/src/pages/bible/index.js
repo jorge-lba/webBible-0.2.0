@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, FlatList } from 'react-native'
 import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
 
-function Bible(){
+function Bible(props){
+
+    const sizeNav = props.navigation.getParam( 'size' )
+
+    const [ config, setConfig ] = useState( { textSize: 10 } )
+
+    useEffect(()=> {
+      function load() {
+        setConfig( (  ) => { return {textSize: sizeNav} })
+
+      }
+      load()
+    },[sizeNav])
+
     let data = [{
         value: 'Banana',
       }, {
@@ -48,7 +61,7 @@ function Bible(){
     function Item({title}) {
       return (
         <View style={{ paddingHorizontal: 16, paddingVertical: 8, justifyContent: 'center', backgroundColor: '#FAFAFA', borderBottomColor: '#CCC', borderBottomWidth: 1 }}>
-          <Text style={{ fontSize: 16, textAlign: 'left' }}>
+          <Text style={{ fontSize: config.textSize, textAlign: 'left' }}>
           <Text style={{ color: '#888', fontSize: 12 }} >{ "  "+ title.id + "  "}</Text>
             
             {title.value}</Text>
@@ -57,7 +70,7 @@ function Bible(){
     }
 
     return( 
-    <>
+    <>  
         <View style={ styles.searchBible } >
             <Dropdown
                 itemCount = { 8 }
