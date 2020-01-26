@@ -45,11 +45,15 @@ function Bible(props){
       load()
     },[sizeNav])
 
+    const fontSizeVerseNumber = parseInt(config.textSize/1.3)
+
     function Item({title}) {
+      
+
       return (
         <View style={{ paddingHorizontal: 16, paddingVertical: 8, justifyContent: 'center', backgroundColor: '#FAFAFA', borderBottomColor: '#CCC', borderBottomWidth: 1 }}>
           <Text style={{ fontSize: config.textSize, textAlign: 'left' }}>
-          <Text style={{ color: '#888', fontSize: 12 }} >{ "  "+ title.id + "  "}</Text>
+          <Text style={{ color: '#888', fontSize: fontSizeVerseNumber }} >{ "  "+ title.id + "  "}</Text>
             
             {title.title}</Text>
         </View>
