@@ -112,6 +112,12 @@ function Bible(props){
     }
 
     function getValueDropdown( option ,value ){
+        if( option === 'book' ){
+          const chapters = getChapters( value ).length
+          config.bibleCall.chapter > chapters ? config.bibleCall.chapter = chapters  : {}
+
+        }
+
         setConfig( ( config ) => {
           return {
             ...config,
@@ -128,7 +134,7 @@ function Bible(props){
     const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
      
     const dropdownBooks = (<Dropdown
-      valor='Genêsis'
+      value={ BOOKS[0].value }
       itemCount = { 10 }
       dropdownPosition={ 0 }
       dropdownOffset={ { top: 18, left: 0 } }
@@ -142,7 +148,7 @@ function Bible(props){
         <View style={ styles.searchBible } >
             {dropdownBooks}
             <Dropdown
-                valor='1'
+                value={ config.bibleCall.chapter }
                 itemCount = { 10 }
                 dropdownPosition={ 0 }
                 dropdownOffset={ { top: 18, left: 0 } }
