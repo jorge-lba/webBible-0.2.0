@@ -138,7 +138,7 @@ function Bible(props){
       itemCount = { 10 }
       dropdownPosition={ 0 }
       dropdownOffset={ { top: 18, left: 0 } }
-      containerStyle={ { width: 120, justifyContent: 'center', marginHorizontal: 16} }
+      containerStyle={ { width: 160, justifyContent: 'center', marginHorizontal: 16} }
       data={ BOOKS }
       onChangeText={( object )=> getValueDropdown( 'book',object ) }
   />)
@@ -152,7 +152,7 @@ function Bible(props){
                 itemCount = { 10 }
                 dropdownPosition={ 0 }
                 dropdownOffset={ { top: 18, left: 0 } }
-                containerStyle={ { width: 70, justifyContent: 'center', marginHorizontal: 16} }
+                containerStyle={ { width: 56, justifyContent: 'center', marginHorizontal: 16} }
                 data={CHAPTERS}
                 onChangeText={( object )=> getValueDropdown('chapter', object ) }
 
