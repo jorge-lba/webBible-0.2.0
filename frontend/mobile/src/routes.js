@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, Modal, Text, View, TouchableHighlight, Button } from 'react-native'
+import React from 'react'
 import { createAppContainer} from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import { MaterialIcons } from '@expo/vector-icons'
 
-import HeaderBible from './pages/bible/HeaderBible'
+import HeaderBible from './pages/Main/HeaderBible'
 
-import Main from './pages/main'
-import Bible from './pages/bible'
+import Home from './pages/Home'
+import Main from './pages/Main'
 
 console.log(  )
 
 const Routes = createAppContainer( 
     createStackNavigator({
-        Bible: {
-            screen: Bible,
+        Main: {
+            screen: Main,
             navigationOptions:({ navigation }) =>({
                 title: 'Bíblia',
                 headerRight: ( ) =><HeaderBible
 
-                reload={ ( config ) => navigation.navigate( 'Bible', config )}
+                reload={ ( config ) => navigation.navigate( 'Main', config )}
             />,
                 
             })
         },
-        Main: {
-            screen: Main,
+        Home: {
+            screen: Home,
             navigationOptions: {
                 title: 'Inicio'
             }

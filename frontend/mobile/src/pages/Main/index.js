@@ -25,11 +25,11 @@ const dataDefault = {
   call: ['random-verse', 'random-verse', 'verse']
 }
 
-function Bible(props){
+function Main(props){
 
-    const sizeNav = props.navigation.getParam( 'size' )
+    const sizeNav = props.navigation.getParam( 'size' ) || 14
 
-    const [ config, setConfig ] = useState( { textSize: 10, bibleCall: {
+    const [ config, setConfig ] = useState( { textSize: 14, textSizeNumberVerse: 9, bibleCall: {
       book: 'genesis',
       chapter: 1
     } } )
@@ -38,22 +38,29 @@ function Bible(props){
       function load() {
         setConfig( ( config ) => { return {
           ...config,
-          textSize: sizeNav
+          textSize: sizeNav,
+          textSizeNumberVerse: sizeNav/1.3
         } })
 
       }
       load()
     },[sizeNav])
 
-    const fontSizeVerseNumber = parseInt(config.textSize/1.3)
 
-    function Item({title}) {
-      
+    function Item({title, textSize, textSizeNumber}) {
+
 
       return (
-        <View style={{ paddingHorizontal: 16, paddingVertical: 8, justifyContent: 'center', backgroundColor: '#FAFAFA', borderBottomColor: '#CCC', borderBottomWidth: 1 }}>
-          <Text style={{ fontSize: config.textSize, textAlign: 'left' }}>
-          <Text style={{ color: '#888', fontSize: fontSizeVerseNumber }} >{ "  "+ title.id + "  "}</Text>
+        <View style={{ 
+          paddingHorizontal: 16, 
+          paddingVertical: 8, 
+          justifyContent: 'center', 
+          backgroundColor: '#FAFAFA', 
+          borderBottomColor: '#CCC', 
+          borderBottomWidth: 1 
+        }}>
+          <Text style={{ fontSize: textSize, textAlign: 'left' }}>
+          <Text style={{ color: '#888', fontSize: textSizeNumber }} >{ "  "+ title.id + "  "}</Text>
             
             {title.title}</Text>
         </View>
@@ -164,7 +171,7 @@ function Bible(props){
         </View>
         <FlatList
           data={VERSES}
-          renderItem={({ item }) => <Item title={ item } />}
+          renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } />}
           keyExtractor={item => item.id}
         />
         <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
@@ -213,4 +220,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Bible
+export default Main
