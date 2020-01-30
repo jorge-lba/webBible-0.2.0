@@ -1,27 +1,43 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, Modal, Text, View, TouchableHighlight, TouchableWithoutFeedback, Button, Slider } from 'react-native'
+import { TouchableOpacity, Modal, Text, View, Slider, AsyncStorage } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
-import * as FileSystem from 'expo-file-system';
+// import AsyncStorage from '@react-native-community/async-storage'
 
-const fileUri = FileSystem.documentDirectory + 'config.json'
-const configJSON = FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
 
 function HeaderBible( props ) { 
     
     const [ config, setConfig ] = useState( { isShowingText: false, textSize: 16 } )
-    
-    
+
     useEffect(() => {
 
-        const fontSizeSaveInConfig = JSON.parse(configJSON._55) || { config: { fontSize: 16 } }
-
-        setConfig( value =>{
+        async function configFontSize(){
+            let valueF = 0
+            try {
+                valueF = await AsyncStorage.getItem('@fontSizeConfig');
+            if (valueF !== null) {
+                // We have data!!
+                valueF = parseInt( valueF )                    
+                
+                
+            }else{
+                valueF = 16
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+        
+        setConfig( conf =>{
             return{
-                ...value,
-                textSize: fontSizeSaveInConfig.config.fontSize
+                ...conf,
+                textSize: valueF
             }
         })
+        }
+        configFontSize()
+        
     }, [ ])
+    
+    
 
     function modalConfig(){
         setConfig(previousState => {           
@@ -33,23 +49,20 @@ function HeaderBible( props ) {
     }
 
     function reloadPage(){
+        async function storeData(){
 
-        const configApp = {
-            config: {
-                fontSize: config.textSize || 16
+            try {
+              await AsyncStorage.setItem('@fontSizeConfig', `${config.textSize}` )
+            } catch (e) {
+              // saving error
+              console.log(e )
             }
+
+            props.reload( { size: config.textSize } )
         }
 
-        try {
-            async function tes () {
-                    await FileSystem.writeAsStringAsync(fileUri, JSON.stringify( configApp ), { encoding: FileSystem.EncodingType.UTF8 });
-                }
-            tes()
-        } catch (error) {
-            console.log(error)
-        }
+        storeData()
 
-        props.reload( { size: config.textSize } )
     }
 
     function changeFontSize( value ){
@@ -106,7 +119,7 @@ function HeaderBible( props ) {
                         value={ config.textSize }
                     />
                 </View>
-            </Modal>
+            </Modal> 
     </>)
 }
 

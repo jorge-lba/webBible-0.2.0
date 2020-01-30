@@ -7,8 +7,6 @@ import HeaderBible from './pages/Main/HeaderBible'
 import Home from './pages/Home'
 import Main from './pages/Main'
 
-console.log(  )
-
 const Routes = createAppContainer( 
     createStackNavigator({
         Main: {
@@ -16,8 +14,7 @@ const Routes = createAppContainer(
             navigationOptions:({ navigation }) =>({
                 title: 'Bíblia',
                 headerRight: ( ) =><HeaderBible
-
-                reload={ ( config ) => navigation.navigate( 'Main', config )}
+                    reload={ ( config ) => navigation.navigate( 'Main', config )}
             />,
                 
             })

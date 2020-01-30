@@ -1,51 +1,85 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, FlatList } from 'react-native'
+import { StyleSheet, View, Text, FlatList, AsyncStorage } from 'react-native'
 import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
 
 const bible = require( '../../content/bible/index.js' )
 
 const dataDefault = {
   dataDefault: {
-      language: 'pt-br',
-      version: 'NVI',
-      book: ' amos',
-      chapter: '1',
-      verse: '10',
+    language: 'pt-br',
+    version: 'NVI',
+    book: ' amos',
+    chapter: '1',
+    verse: '10',
       random: {
           chapter: {
-              min: null,
+            min: null,
               max: null
           },
           verse: {
               min: null,
               max: null
           }
-      }
+        }
   },
   call: ['random-verse', 'random-verse', 'verse']
 }
 
+
 function Main(props){
-
-    const sizeNav = props.navigation.getParam( 'size' ) || 14
-
-    const [ config, setConfig ] = useState( { textSize: 14, textSizeNumberVerse: 9, bibleCall: {
-      book: 'genesis',
+  
+  const sizeNav = props.navigation.getParam( 'size' ) || 14
+  
+  
+  const [ config, setConfig ] = useState( { textSize: 14, textSizeNumberVerse: 9, visible: 0 , bibleCall: {
+    book: 'genesis',
       chapter: 1
     } } )
 
+    
     useEffect(()=> {
-      function load() {
-        setConfig( ( config ) => { return {
-          ...config,
-          textSize: sizeNav,
-          textSizeNumberVerse: sizeNav/1.3
-        } })
 
-      }
-      load()
+      setConfig( ( config ) => { return {
+        ...config,
+        textSize: sizeNav,
+        textSizeNumberVerse: sizeNav/1.3
+      } })
+      
     },[sizeNav])
+    
+    useEffect(() => {
 
+
+      async function configFontSize(){
+          let valueF = 0
+          try {
+              valueF = await AsyncStorage.getItem('@fontSizeConfig');
+          if (valueF !== null) {
+              // We have data!!
+              valueF = parseInt( valueF )
+                          
+              
+            }else{
+              valueF = 16
+            }
+          } catch (error) {
+            // Error retrieving data
+          }
+          
+          setConfig( conf =>{
+              return{
+                  ...conf,
+                  textSize: valueF,
+                  visible: 100
+              }
+          })
+      }
+      configFontSize()
+
+
+      console.log( 'Reload' )
+      
+  }, [ ])
 
     function Item({title, textSize, textSizeNumber}) {
 
@@ -169,11 +203,13 @@ function Main(props){
 
             />
         </View>
-        <FlatList
-          data={VERSES}
-          renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } />}
-          keyExtractor={item => item.id}
-        />
+        <View style={ {opacity: config.visible }} >
+          <FlatList
+            data={VERSES}
+            renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } />}
+            keyExtractor={item => item.id}
+            />
+        </View>
         <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
     </>
     )
