@@ -109,7 +109,7 @@ function HeaderBible( props ) {
                     </View>
                     <Slider 
                         style={ { width: '100%', marginVertical: 10 } } 
-                        maximumValue={ 70 } 
+                        maximumValue={ 60 } 
                         minimumValue={14} 
                         onValueChange={ value => changeFontSize(value) } 
                         onSlidingComplete={ () => reloadPage() }
