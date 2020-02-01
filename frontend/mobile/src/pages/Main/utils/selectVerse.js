@@ -27,7 +27,8 @@ module.exports.selectMultVerse = function( id, arrayVerses ){
 
   const forSetSelect = ( typeOperation ) => {
    
-    const numberS = parseInt(arrayVerses[ arrayVerses.length - 1 ])
+    let numberS = parseInt(arrayVerses[ arrayVerses.length - 1 ])
+    if( isNaN( numberS ) ) numberS = 0
 
     const testNumber = [ id, numberS ]
     testNumber.sort( compararNumeros )
