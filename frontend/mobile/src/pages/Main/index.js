@@ -48,6 +48,59 @@ function selectBackgroundColor ( value, configData ){
     }
 }
 
+function optionsBook(){
+  return bible( { call:[ 'titles' ] } )
+}
+
+const getTitleBooks = () => {
+  const [books] = optionsBook()
+  return books.map( ( book, index ) => {
+    return {
+      id: index+1,
+      title: book,
+      value: book
+    }
+  } )
+}
+
+function getChapters( book ){
+
+  const chapters = bible({
+    dataDefault:{
+      book: book
+    },
+    call:['chapter']
+  })[0].validOptions
+
+  chapters.pop()
+
+  return chapters.map( (item, index )=> {
+    return{
+      id: `${index}`,
+      title:item,
+      value: item
+    }
+  }
+)}
+
+function getVerses( book, chapter ){
+  const chapters = bible({
+    dataDefault:{
+      book: book,
+      chapter: chapter
+    },
+    call:['chapter']
+  })[0].content
+
+  const contentChapter = Object.entries(chapters)
+  return contentChapter.map( ( content ) =>{
+    return{
+      id: content[0],
+      title: content[1]
+    }
+  } )
+}
+
 function Main(props){
   
   const sizeNav = props.navigation.getParam( 'size' ) || 16
@@ -125,61 +178,6 @@ function Main(props){
       </TouchableOpacity>
     );
   }
-
-    function optionsBook(){
-      return bible( { call:[ 'titles' ] } )
-    }
-
-    const getTitleBooks = () => {
-      const [books] = optionsBook()
-      return books.map( ( book, index ) => {
-        return {
-          id: index+1,
-          title: book,
-          value: book
-        }
-      } )
-    }
-
-    function getChapters( book ){
-
-      const chapters = bible({
-        dataDefault:{
-          book: book
-        },
-        call:['chapter']
-      })[0].validOptions
-
-      chapters.pop()
-
-      return chapters.map( (item, index )=> {
-        return{
-          id: `${index}`,
-          title:item,
-          value: item
-        }
-      }
-      )
-
-    }
-
-    function getVerses( book, chapter ){
-      const chapters = bible({
-        dataDefault:{
-          book: book,
-          chapter: chapter
-        },
-        call:['chapter']
-      })[0].content
-
-      const contentChapter = Object.entries(chapters)
-      return contentChapter.map( ( content ) =>{
-        return{
-          id: content[0],
-          title: content[1]
-        }
-      } )
-    }
 
     function getValueDropdown( option ,value ){
         if( option === 'book' ){
