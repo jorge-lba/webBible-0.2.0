@@ -179,65 +179,54 @@ function Main(props){
     );
   }
 
-    function getValueDropdown( option ,value ){
-        if( option === 'book' ){
-          const chapters = getChapters( value ).length
-          config.bibleCall.chapter > chapters ? config.bibleCall.chapter = chapters  : {}
-
+  function getValueDropdown( option ,value ){
+      setConfig( ( config ) => {
+        return {
+          ...config,
+          bibleCall: {
+            book: option === 'book'? value : config.bibleCall.book,
+            chapter: option === 'chapter'? value : config.bibleCall.chapter
+          },
+          selectedVerse: []
         }
-
-        setConfig( ( config ) => {
-          return {
-            ...config,
-            bibleCall: {
-              book: option === 'book'? value : config.bibleCall.book,
-              chapter: option === 'chapter'? value : config.bibleCall.chapter
-            },
-            selectedVerse: []
-          }
-        } )
-    }
+      } )
+  }
     
-    const BOOKS = getTitleBooks()
-    const CHAPTERS = getChapters( config.bibleCall.book)
-    const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
-     
-    const dropdownBooks = (<Dropdown
-      value={ BOOKS[0].value }
-      itemCount = { 10 }
-      dropdownPosition={ 0 }
-      dropdownOffset={ { top: 18, left: 0 } }
-      containerStyle={ { width: 160, justifyContent: 'center', marginHorizontal: 16} }
-      data={ BOOKS }
-      onChangeText={( object )=> getValueDropdown( 'book',object ) }
-  />)
-
-    return( 
+  const BOOKS = getTitleBooks()
+  const CHAPTERS = getChapters( config.bibleCall.book)
+  const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
+    
+  return( 
     <>  
-        <View style={ styles.searchBible } >
-            {dropdownBooks}
-            <Dropdown
-                value={ config.bibleCall.chapter }
-                itemCount = { 10 }
-                dropdownPosition={ 0 }
-                dropdownOffset={ { top: 18, left: 0 } }
-                containerStyle={ { width: 56, justifyContent: 'center', marginHorizontal: 16} }
-                data={CHAPTERS}
-                onChangeText={( object )=> getValueDropdown('chapter', object ) }
-
-            />
-        </View>
-        <FlatList
-            data={VERSES}
-            renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } verseS={ config.selectedVerse } />}
-            keyExtractor={item => item.id}
-            />
-        <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
+      <View style={ styles.searchBible } >
+        <Dropdown
+          value={ BOOKS[0].value }
+          itemCount = { 10 }
+          dropdownPosition={ 0 }
+          dropdownOffset={ { top: 18, left: 0 } }
+          containerStyle={ { width: 160, justifyContent: 'center', marginHorizontal: 16} }
+          data={ BOOKS }
+          onChangeText={( object )=> getValueDropdown( 'book',object ) }
+        />
+        <Dropdown
+          value={ config.bibleCall.chapter }
+          itemCount = { 10 }
+          dropdownPosition={ 0 }
+          dropdownOffset={ { top: 18, left: 0 } }
+          containerStyle={ { width: 56, justifyContent: 'center', marginHorizontal: 16} }
+          data={CHAPTERS}
+          onChangeText={( object )=> getValueDropdown('chapter', object ) }
+        />
+      </View>
+      <FlatList
+        data={VERSES}
+        renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } verseS={ config.selectedVerse } />}
+        keyExtractor={item => item.id}
+      />
+      <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
     </>
-    )
+  )
 }
-
-
 
 const styles = StyleSheet.create({
     searchBible: {
