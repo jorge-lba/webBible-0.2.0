@@ -29,8 +29,7 @@ const dataDefault = {
 function Main(props){
   
   const sizeNav = props.navigation.getParam( 'size' ) || 14
-  
-  
+    
   const [ config, setConfig ] = useState( { 
     textSize: 14, 
     textSizeNumberVerse: 9, 
@@ -85,49 +84,67 @@ function Main(props){
 
   }, [ ])
 
-  const verseSelected = config.selectedVerse
+  function removeSelectedVerse( valueRemove, arrayVerses ){
+      const indexValue = arrayVerses.indexOf( valueRemove )
 
-  function selectVerse( id ){
-    function compararNumeros(a, b) {
-      return a - b;
-    }
-
-  id = `${id}`
-  verseSelected.indexOf( id ) > -1 
-    ? {}
-    : verseSelected.push( id )
-    verseSelected.sort(compararNumeros)
+      if( indexValue > -1 ) arrayVerses.splice( indexValue, 1 )
+  }
+  
+  function compararNumeros(a, b) {
+    return a - b;
+  }
+  function selectVerse( id, arrayVerses ){
+    id = parseInt( id )
+    arrayVerses.indexOf( id ) > -1 
+    ? removeSelectedVerse( id, config.selectedVerse )
+    : arrayVerses.push( id )
+    arrayVerses.sort(compararNumeros)
     setConfig( ( config ) => { return {
       ...config,
-      selectedVerse: verseSelected
+      selectedVerse: arrayVerses
     } })
 
   }
 
-  function selectMultVerse( id ){
+  function selectMultVerse( id, arrayVerses ){
     
-    const forSetSelect = () => {
-      for( let i = parseInt(verseSelected[ verseSelected.length - 1 ]); i <= id; i++ ){
-        verseSelected.indexOf( `${i}` ) > -1 
-        ? {}
-        : verseSelected.push( `${i}` )
+    id = parseInt( id )
+
+    const forSetSelect = ( typeOperation ) => {
+     
+      const numberS = parseInt(arrayVerses[ arrayVerses.length - 1 ])
+
+      const testNumber = [ id, numberS ]
+      testNumber.sort( compararNumeros )
+
+      switch( typeOperation ){
+        case 'add':
+          for( let i = testNumber[0]; i <= testNumber[1]; i++  ){
+            arrayVerses.indexOf( i ) > -1 ? {} : arrayVerses.push( i )
+          }
+          break;
+        case 'sub':
+          
+          for( let i = testNumber[0]; i <= testNumber[1]; i++ ){
+            removeSelectedVerse( i, arrayVerses )
+          }
+          break;
       }
     }
     
     function compararNumeros(a, b) {
       return a - b;
     }
+    arrayVerses.sort(compararNumeros)
 
-    id = `${id}`
-  verseSelected.indexOf( id ) > -1 
-    ? console.log( id + "Já existe" )
-    : forSetSelect()
+    arrayVerses.indexOf( id ) > -1 
+    ? forSetSelect( 'sub' ) 
+    : forSetSelect( 'add' )
 
-    verseSelected.sort(compararNumeros)
 
     setConfig( ( config ) => { return {
       ...config,
-      selectedVerse: verseSelected
+      selectedVerse: arrayVerses
     } })
  
     }
@@ -148,7 +165,7 @@ function Main(props){
           paddingHorizontal: 16, 
           paddingVertical: 8, 
           justifyContent: 'center', 
-          backgroundColor: '#AAA', 
+          backgroundColor: '#EAEAEA', 
           borderBottomColor: '#CCC', 
           borderBottomWidth: 1 
         }
@@ -157,17 +174,20 @@ function Main(props){
 
     function Item({title, textSize, textSizeNumber, verseS}) {
      
-      function testVerseSelect( arrayVerse, id ){
-          return arrayVerse.indexOf( id ) > -1 
+      function testVerseSelect( verseS, id ){
+        
+        id = parseInt(id)
+  
+        return verseS.indexOf( id ) > -1 
           ?  selectBackground( false )
           :  selectBackground( true )
       }
 
       return (
-        <TouchableOpacity style={ testVerseSelect( config.selectedVerse, title.id ) }
+        <TouchableOpacity style={ testVerseSelect( verseS, title.id ) }
           key={title.id}
-          onPress={ () => selectVerse( title.id ) }
-          onLongPress={ () => selectMultVerse( title.id )  }
+          onPress={ () => selectVerse( title.id, config.selectedVerse ) }
+          onLongPress={ () => selectMultVerse( title.id, config.selectedVerse )  }
           >
           <Text style={{ fontSize: textSize, textAlign: 'left' }}>
           <Text style={{ color: '#888', fontSize: textSizeNumber }} >{ "  "+ title.id + "  "}</Text>
@@ -282,7 +302,7 @@ function Main(props){
         </View>
         <FlatList
             data={VERSES}
-            renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } verseS={ verseSelected } />}
+            renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } verseS={ config.selectedVerse } />}
             keyExtractor={item => item.id}
             />
         <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
