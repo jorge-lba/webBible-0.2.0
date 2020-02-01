@@ -17,12 +17,35 @@ async function configFontSize(functionSetState){
   } catch (error) {}
   
   functionSetState( conf =>{
-      return{
-          ...conf,
-          textSize: valueF,
-          visible: 100
-      }
+    return{
+        ...conf,
+        textSize: valueF,
+        visible: 100
+    }
   })
+}
+
+function selectBackgroundColor ( value, configData ){
+
+  return value
+    ? { 
+      opacity: configData.visible,
+      paddingHorizontal: 16, 
+      paddingVertical: 8, 
+      justifyContent: 'center', 
+      backgroundColor: '#FAFAFA', 
+      borderBottomColor: '#CCC', 
+      borderBottomWidth: 1 
+    }
+    : { 
+      opacity: configData.visible,
+      paddingHorizontal: 16, 
+      paddingVertical: 8, 
+      justifyContent: 'center', 
+      backgroundColor: '#EAEAEA', 
+      borderBottomColor: '#CCC', 
+      borderBottomWidth: 1 
+    }
 }
 
 function Main(props){
@@ -76,57 +99,32 @@ function Main(props){
  
   }
 
-  function selectBackground ( value ){
+  function Item({title, textSize, textSizeNumber, verseS}) {
+    
+    function testVerseSelect( verseS, id ){
+      
+      id = parseInt(id)
 
-    return value
-      ? { 
-        opacity: config.visible,
-        paddingHorizontal: 16, 
-        paddingVertical: 8, 
-        justifyContent: 'center', 
-        backgroundColor: '#FAFAFA', 
-        borderBottomColor: '#CCC', 
-        borderBottomWidth: 1 
-      }
-      : { 
-        opacity: config.visible,
-        paddingHorizontal: 16, 
-        paddingVertical: 8, 
-        justifyContent: 'center', 
-        backgroundColor: '#EAEAEA', 
-        borderBottomColor: '#CCC', 
-        borderBottomWidth: 1 
-      }
-
+      return verseS.indexOf( id ) > -1 
+        ?  selectBackgroundColor( false, config )
+        :  selectBackgroundColor( true, config )
     }
 
-
-    function Item({title, textSize, textSizeNumber, verseS}) {
-     
-      function testVerseSelect( verseS, id ){
-        
-        id = parseInt(id)
-  
-        return verseS.indexOf( id ) > -1 
-          ?  selectBackground( false )
-          :  selectBackground( true )
-      }
-
-      return (
-        <TouchableOpacity style={ testVerseSelect( verseS, title.id ) }
-          key={title.id}
-          onPress={ () => verseSelect( title.id, config.selectedVerse ) }
-          onLongPress={ () => multVersesSelect( title.id, config.selectedVerse )  }
-        >
-        <Text style={{ fontSize: textSize, textAlign: 'left' }}>
-          <Text style={{ color: '#888', fontSize: textSizeNumber }} >
-            { "  "+ title.id + "  "}
-          </Text>    
-          {title.title}
-        </Text>
-        </TouchableOpacity>
-      );
-    }
+    return (
+      <TouchableOpacity style={ testVerseSelect( verseS, title.id ) }
+        key={title.id}
+        onPress={ () => verseSelect( title.id, config.selectedVerse ) }
+        onLongPress={ () => multVersesSelect( title.id, config.selectedVerse )  }
+      >
+      <Text style={{ fontSize: textSize, textAlign: 'left' }}>
+        <Text style={{ color: '#888', fontSize: textSizeNumber }} >
+          { "  "+ title.id + "  "}
+        </Text>    
+        {title.title}
+      </Text>
+      </TouchableOpacity>
+    );
+  }
 
     function optionsBook(){
       return bible( { call:[ 'titles' ] } )
