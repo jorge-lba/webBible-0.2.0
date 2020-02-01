@@ -5,31 +5,29 @@ import { selectVerse, selectMultVerse } from './utils/selectVerse'
 
 const bible = require( '../../content/bible/index.js' )
 
-const dataDefault = {
-  dataDefault: {
-    language: 'pt-br',
-    version: 'NVI',
-    book: ' amos',
-    chapter: '1',
-    verse: '10',
-      random: {
-          chapter: {
-            min: null,
-              max: null
-          },
-          verse: {
-              min: null,
-              max: null
-          }
-        }
-  },
-  call: ['random-verse', 'random-verse', 'verse']
+async function configFontSize(functionSetState){
+  let valueF = 0
+  try {
+      valueF = await AsyncStorage.getItem('@fontSizeConfig');
+  if (valueF !== null) {
+      valueF = parseInt( valueF )
+    }else{
+      valueF = 16
+    }
+  } catch (error) {}
+  
+  functionSetState( conf =>{
+      return{
+          ...conf,
+          textSize: valueF,
+          visible: 100
+      }
+  })
 }
-
 
 function Main(props){
   
-  const sizeNav = props.navigation.getParam( 'size' ) || 14
+  const sizeNav = props.navigation.getParam( 'size' ) || 16
     
   const [ config, setConfig ] = useState( { 
     textSize: 14, 
@@ -44,44 +42,19 @@ function Main(props){
   } )
 
     
-    useEffect(()=> {
+  useEffect(()=> {
 
-      setConfig( ( config ) => { return {
-        ...config,
-        textSize: sizeNav,
-        textSizeNumberVerse: sizeNav/1.3
-      } })
-      
-    },[sizeNav])
+    setConfig( ( config ) => { return {
+      ...config,
+      textSize: sizeNav,
+      textSizeNumberVerse: sizeNav/1.3
+    } })
     
-    useEffect(() => {
+  },[sizeNav])
+  
+  useEffect(() => {
 
-
-      async function configFontSize(){
-          let valueF = 0
-          try {
-              valueF = await AsyncStorage.getItem('@fontSizeConfig');
-          if (valueF !== null) {
-              // We have data!!
-              valueF = parseInt( valueF )
-                          
-              
-            }else{
-              valueF = 16
-            }
-          } catch (error) {
-            // Error retrieving data
-          }
-          
-          setConfig( conf =>{
-              return{
-                  ...conf,
-                  textSize: valueF,
-                  visible: 100
-              }
-          })
-      }
-      configFontSize()
+    configFontSize(setConfig)
 
   }, [ ])
 
