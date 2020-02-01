@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, FlatList, AsyncStorage, TouchableOpacity } from 'react-native'
 import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
 import { selectVerse, selectMultVerse } from './utils/selectVerse'
-
-const bible = require( '../../content/bible/index.js' )
+import { getTitleBooks, getChapters, getVerses } from './utils/consultBible'
 
 async function configFontSize(functionSetState){
   let valueF = 0
@@ -46,59 +45,6 @@ function selectBackgroundColor ( value, configData ){
       borderBottomColor: '#CCC', 
       borderBottomWidth: 1 
     }
-}
-
-function optionsBook(){
-  return bible( { call:[ 'titles' ] } )
-}
-
-const getTitleBooks = () => {
-  const [books] = optionsBook()
-  return books.map( ( book, index ) => {
-    return {
-      id: index+1,
-      title: book,
-      value: book
-    }
-  } )
-}
-
-function getChapters( book ){
-
-  const chapters = bible({
-    dataDefault:{
-      book: book
-    },
-    call:['chapter']
-  })[0].validOptions
-
-  chapters.pop()
-
-  return chapters.map( (item, index )=> {
-    return{
-      id: `${index}`,
-      title:item,
-      value: item
-    }
-  }
-)}
-
-function getVerses( book, chapter ){
-  const chapters = bible({
-    dataDefault:{
-      book: book,
-      chapter: chapter
-    },
-    call:['chapter']
-  })[0].content
-
-  const contentChapter = Object.entries(chapters)
-  return contentChapter.map( ( content ) =>{
-    return{
-      id: content[0],
-      title: content[1]
-    }
-  } )
 }
 
 function Main(props){
