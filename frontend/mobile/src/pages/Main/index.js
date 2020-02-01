@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, FlatList, AsyncStorage, TouchableOpacity } from 'react-native'
 import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
+import { selectVerse, selectMultVerse } from './utils/selectVerse'
 
 const bible = require( '../../content/bible/index.js' )
 
@@ -84,91 +85,46 @@ function Main(props){
 
   }, [ ])
 
-  function removeSelectedVerse( valueRemove, arrayVerses ){
-      const indexValue = arrayVerses.indexOf( valueRemove )
+  function verseSelect( id, arrayVerses ){
 
-      if( indexValue > -1 ) arrayVerses.splice( indexValue, 1 )
-  }
-  
-  function compararNumeros(a, b) {
-    return a - b;
-  }
-  function selectVerse( id, arrayVerses ){
-    id = parseInt( id )
-    arrayVerses.indexOf( id ) > -1 
-    ? removeSelectedVerse( id, config.selectedVerse )
-    : arrayVerses.push( id )
-    arrayVerses.sort(compararNumeros)
     setConfig( ( config ) => { return {
       ...config,
-      selectedVerse: arrayVerses
+      selectedVerse: selectVerse( id, arrayVerses )
     } })
 
   }
 
-  function selectMultVerse( id, arrayVerses ){
-    
-    id = parseInt( id )
-
-    const forSetSelect = ( typeOperation ) => {
-     
-      const numberS = parseInt(arrayVerses[ arrayVerses.length - 1 ])
-
-      const testNumber = [ id, numberS ]
-      testNumber.sort( compararNumeros )
-
-      switch( typeOperation ){
-        case 'add':
-          for( let i = testNumber[0]; i <= testNumber[1]; i++  ){
-            arrayVerses.indexOf( i ) > -1 ? {} : arrayVerses.push( i )
-          }
-          break;
-        case 'sub':
-          
-          for( let i = testNumber[0]; i <= testNumber[1]; i++ ){
-            removeSelectedVerse( i, arrayVerses )
-          }
-          break;
-      }
-    }
-    
-    function compararNumeros(a, b) {
-      return a - b;
-    }
-    arrayVerses.sort(compararNumeros)
-
-    arrayVerses.indexOf( id ) > -1 
-    ? forSetSelect( 'sub' ) 
-    : forSetSelect( 'add' )
-
+  function multVersesSelect( id, arrayVerses ){
 
     setConfig( ( config ) => { return {
       ...config,
-      selectedVerse: arrayVerses
+      selectedVerse: selectMultVerse( id, arrayVerses )
     } })
  
-    }
+  }
 
-    function selectBackground ( value ){
-      return value
-        ? { 
-          opacity: config.visible,
-          paddingHorizontal: 16, 
-          paddingVertical: 8, 
-          justifyContent: 'center', 
-          backgroundColor: '#FAFAFA', 
-          borderBottomColor: '#CCC', 
-          borderBottomWidth: 1 
-        }
-        : { 
-          opacity: config.visible,
-          paddingHorizontal: 16, 
-          paddingVertical: 8, 
-          justifyContent: 'center', 
-          backgroundColor: '#EAEAEA', 
-          borderBottomColor: '#CCC', 
-          borderBottomWidth: 1 
-        }
+  function selectBackground ( value ){
+
+    return value
+      ? { 
+        opacity: config.visible,
+        paddingHorizontal: 16, 
+        paddingVertical: 8, 
+        justifyContent: 'center', 
+        backgroundColor: '#FAFAFA', 
+        borderBottomColor: '#CCC', 
+        borderBottomWidth: 1 
+      }
+      : { 
+        opacity: config.visible,
+        paddingHorizontal: 16, 
+        paddingVertical: 8, 
+        justifyContent: 'center', 
+        backgroundColor: '#EAEAEA', 
+        borderBottomColor: '#CCC', 
+        borderBottomWidth: 1 
+      }
+
     }
 
 
@@ -186,13 +142,15 @@ function Main(props){
       return (
         <TouchableOpacity style={ testVerseSelect( verseS, title.id ) }
           key={title.id}
-          onPress={ () => selectVerse( title.id, config.selectedVerse ) }
-          onLongPress={ () => selectMultVerse( title.id, config.selectedVerse )  }
-          >
-          <Text style={{ fontSize: textSize, textAlign: 'left' }}>
-          <Text style={{ color: '#888', fontSize: textSizeNumber }} >{ "  "+ title.id + "  "}</Text>
-            
-            {title.title}</Text>
+          onPress={ () => verseSelect( title.id, config.selectedVerse ) }
+          onLongPress={ () => multVersesSelect( title.id, config.selectedVerse )  }
+        >
+        <Text style={{ fontSize: textSize, textAlign: 'left' }}>
+          <Text style={{ color: '#888', fontSize: textSizeNumber }} >
+            { "  "+ title.id + "  "}
+          </Text>    
+          {title.title}
+        </Text>
         </TouchableOpacity>
       );
     }
