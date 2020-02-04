@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, FlatList, AsyncStorage, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, FlatList, AsyncStorage, TouchableOpacity, Dimensions, ScrollView, Animated } from 'react-native'
 import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
 import { selectVerse, selectMultVerse } from './utils/selectVerse'
 import { getTitleBooks, getChapters, getVerses } from './utils/consultBible'
+import Swipeable from 'react-native-gesture-handler/Swipeable'  // https://software-mansion.github.io/react-native-gesture-handler/docs/component-swipeable.html
+
+const deviceWidth = Dimensions.get('window').width
 
 async function configFontSize(functionSetState){
   let valueF = 0
   try {
       valueF = await AsyncStorage.getItem('@fontSizeConfig');
-  if (valueF !== null) {
-      valueF = parseInt( valueF )
+    if (valueF !== null) {
+        valueF = parseInt( valueF )
     }else{
+      await AsyncStorage.setItem('@fontSizeConfig', `16` )
       valueF = 16
     }
   } catch (error) {}
-  
-  functionSetState( conf =>{
-    return{
-        ...conf,
-        textSize: valueF,
-        visible: 100
-    }
-  })
-}
+
+    functionSetState( conf =>{
+      return{
+          ...conf,
+          textSize: valueF,
+          visible: 100
+      }
+    })
+  }
 
 function selectBackgroundColor ( value, configData ){
 
@@ -49,11 +53,12 @@ function selectBackgroundColor ( value, configData ){
 
 function Main(props){
   
+
   const sizeNav = props.navigation.getParam( 'size' ) || 16
     
   const [ config, setConfig ] = useState( { 
-    textSize: 14, 
-    textSizeNumberVerse: 9, 
+    textSize: sizeNav, 
+    textSizeNumberVerse: sizeNav/1.3, 
     visible: 0 , 
     colorListContent: '#FAFAFA',
     bibleCall: {
@@ -63,7 +68,6 @@ function Main(props){
     selectedVerse: []
   } )
 
-    
   useEffect(()=> {
 
     setConfig( ( config ) => { return {
@@ -98,7 +102,7 @@ function Main(props){
  
   }
 
-  function Item({title, textSize, textSizeNumber, verseS}) {
+  function Item({title, textSize, textSizeNumber, verseS }) {
     
     function testVerseSelect( verseS, id ){
       
@@ -141,7 +145,27 @@ function Main(props){
   const BOOKS = getTitleBooks()
   const CHAPTERS = getChapters( config.bibleCall.book)
   const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
-    
+
+
+  function loadScrollADD(object, close){
+    object++
+    getValueDropdown( 'chapter',object ) 
+    close()
+  }
+  function loadScrollSUB(object, close){
+    object--
+    getValueDropdown( 'chapter',object ) 
+    close()
+  }
+
+  const refSw = []
+
+  const renderLeftActions = (progress, dragX) => {    
+    return (
+            <View style={ { width: 1, height:'100%' } } />
+    );
+  }
+   
   return( 
     <>  
       <View style={ styles.searchBible } >
@@ -164,11 +188,35 @@ function Main(props){
           onChangeText={( object )=> getValueDropdown('chapter', object ) }
         />
       </View>
-      <FlatList
-        data={VERSES}
-        renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } verseS={ config.selectedVerse } />}
-        keyExtractor={item => item.id}
-      />
+
+        <View style={ { flex: 1, flexDirection:'column' } }>
+
+          <Swipeable
+
+            leftThreshold={ 120}
+            rightThreshold={ 120}
+
+            ref={ ref => refSw[0] = ref }
+            
+            renderLeftActions={renderLeftActions}
+            renderRightActions={ renderLeftActions }
+          
+
+            onSwipeableRightOpen={ () => loadScrollADD(config.bibleCall.chapter, refSw[0].close) }
+            onSwipeableLeftOpen={ () => loadScrollSUB(config.bibleCall.chapter, refSw[0].close) }
+
+            >
+              <View style={ { width: "100%", height:'100%' } } >
+                <FlatList
+                  data={VERSES}
+                  renderItem={({ item }) => <Item title={ item } textSize={config.textSize} textSizeNumber={ config.textSizeNumberVerse } verseS={ config.selectedVerse } />}
+                  keyExtractor={item => item.id}
+                  contentContainerStyle={ { width: deviceWidth } }
+                />
+              </View>
+            </Swipeable>
+          </View>
+
       <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
     </>
   )

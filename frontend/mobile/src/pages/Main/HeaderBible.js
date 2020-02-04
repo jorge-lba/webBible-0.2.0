@@ -20,6 +20,7 @@ function HeaderBible( props ) {
                 
                 
             }else{
+                await AsyncStorage.setItem('@fontSizeConfig', `16` )
                 valueF = 16
             }
         } catch (error) {
