@@ -113,19 +113,25 @@ function Main(props){
         :  selectBackgroundColor( true, config )
     }
 
+
     return (
-      <TouchableOpacity style={ testVerseSelect( verseS, title.id ) }
-        key={title.id}
-        onPress={ () => verseSelect( title.id, config.selectedVerse ) }
-        onLongPress={ () => multVersesSelect( title.id, config.selectedVerse )  }
-      >
-      <Text style={{ fontSize: textSize, textAlign: 'left' }}>
-        <Text style={{ color: '#888', fontSize: textSizeNumber }} >
-          { "  "+ title.id + "  "}
-        </Text>    
-        {title.title}
-      </Text>
-      </TouchableOpacity>
+      <>
+         {isNaN(parseInt( title.id ))
+          ? <View style={ { height: 64 } } />
+          : <TouchableOpacity style={ testVerseSelect( verseS, title.id ) }
+              key={title.id}
+              onPress={ () => verseSelect( title.id, config.selectedVerse ) }
+              onLongPress={ () => multVersesSelect( title.id, config.selectedVerse )  }
+            >
+            <Text style={{ fontSize: textSize, textAlign: 'left' }}>
+              <Text style={{ color: '#888', fontSize: textSizeNumber }} >
+                { "  "+ title.id + "  "}
+              </Text>    
+              {title.title}
+            </Text>
+            </TouchableOpacity>
+          } 
+      </>
     );
   }
 
@@ -145,17 +151,21 @@ function Main(props){
   const BOOKS = getTitleBooks()
   const CHAPTERS = getChapters( config.bibleCall.book)
   const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
+  VERSES.push({
+    id: ' ',
+    title: ` `
+  })
 
 
   function loadScrollADD(object, close){
     object++
     getValueDropdown( 'chapter',object ) 
-    close()
+   // close()
   }
   function loadScrollSUB(object, close){
     object--
     getValueDropdown( 'chapter',object ) 
-    close()
+    //close()
   }
 
   const refSw = []
@@ -191,21 +201,6 @@ function Main(props){
 
         <View style={ { flex: 1, flexDirection:'column' } }>
 
-          <Swipeable
-
-            leftThreshold={ 120}
-            rightThreshold={ 120}
-
-            ref={ ref => refSw[0] = ref }
-            
-            renderLeftActions={renderLeftActions}
-            renderRightActions={ renderLeftActions }
-          
-
-            onSwipeableRightOpen={ () => loadScrollADD(config.bibleCall.chapter, refSw[0].close) }
-            onSwipeableLeftOpen={ () => loadScrollSUB(config.bibleCall.chapter, refSw[0].close) }
-
-            >
               <View style={ { width: "100%", height:'100%' } } >
                 <FlatList
                   data={VERSES}
@@ -214,7 +209,35 @@ function Main(props){
                   contentContainerStyle={ { width: deviceWidth } }
                 />
               </View>
-            </Swipeable>
+            <TouchableOpacity 
+              style={ { 
+                borderWidth:1,
+                borderColor:'rgba(0,0,0,0.2)',
+                width: 50, 
+                height: 50, 
+                backgroundColor:'#453689', 
+                opacity:.4,
+                borderRadius: 50,
+                position: 'absolute', 
+                bottom: 8, 
+                left: 20 } } 
+                onPress={ () => loadScrollSUB(config.bibleCall.chapter, 'close') }
+              />
+            <TouchableOpacity 
+              style={ { 
+                borderWidth:1,
+                borderColor:'rgba(0,0,0,0.2)',
+                width: 50, 
+                height: 50, 
+                backgroundColor:'#453689', 
+                opacity:.4,
+                borderRadius: 50,
+                position: 'absolute', 
+                bottom: 8, 
+                right: 20 } } 
+                onPress={ () => loadScrollADD(config.bibleCall.chapter, 'close') }
+              />
+  
           </View>
 
       <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>

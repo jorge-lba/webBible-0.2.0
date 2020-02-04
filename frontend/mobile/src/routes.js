@@ -15,6 +15,7 @@ const Routes = createAppContainer(
                 title: 'Bíblia',
                 headerRight: ( ) =><HeaderBible
                     reload={ ( config ) => navigation.navigate( 'Main', config )}
+                    propsMain ={() =>  '' }
             />,
                 
             })
