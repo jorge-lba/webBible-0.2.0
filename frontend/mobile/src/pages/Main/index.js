@@ -51,9 +51,9 @@ function selectBackgroundColor ( value, configData ){
 }
 
 function Main(props){
-  
+  console.log( 'test' )  
 
-  const sizeNav = props.navigation.getParam( 'size' ) || 16
+  const sizeNav = props.fontSizeAll || 16
     
   const [ config, setConfig ] = useState( { 
     textSize: sizeNav, 
