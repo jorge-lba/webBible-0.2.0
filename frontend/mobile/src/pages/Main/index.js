@@ -226,7 +226,7 @@ function Main(props){
                 right: 20 } } 
                 onPress={ () => loadScrollADD(config.bibleCall.chapter ) }
               />
-  
+   
           </View>
 
       <View style={ { height: 50, elevation: 3, backgroundColor: '#FFF' } } ></View>
