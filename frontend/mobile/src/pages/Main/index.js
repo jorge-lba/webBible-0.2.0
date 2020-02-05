@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, FlatList, AsyncStorage, TouchableOpacity, Dimensions, ScrollView, Animated } from 'react-native'
+import { StyleSheet, View, Text, FlatList, AsyncStorage, TouchableOpacity, Dimensions } from 'react-native'
 import { Dropdown } from 'react-native-material-dropdown';  // https://www.npmjs.com/package/react-native-material-dropdown
 import { selectVerse, selectMultVerse } from './utils/selectVerse'
 import { getTitleBooks, getChapters, getVerses } from './utils/consultBible'
-import Swipeable from 'react-native-gesture-handler/Swipeable'  // https://software-mansion.github.io/react-native-gesture-handler/docs/component-swipeable.html
 
 const deviceWidth = Dimensions.get('window').width
 
@@ -157,23 +156,13 @@ function Main(props){
   })
 
 
-  function loadScrollADD(object, close){
+  function loadScrollADD(object){
     object++
     getValueDropdown( 'chapter',object ) 
-   // close()
   }
-  function loadScrollSUB(object, close){
+  function loadScrollSUB(object){
     object--
     getValueDropdown( 'chapter',object ) 
-    //close()
-  }
-
-  const refSw = []
-
-  const renderLeftActions = (progress, dragX) => {    
-    return (
-            <View style={ { width: 1, height:'100%' } } />
-    );
   }
    
   return( 
@@ -221,7 +210,7 @@ function Main(props){
                 position: 'absolute', 
                 bottom: 8, 
                 left: 20 } } 
-                onPress={ () => loadScrollSUB(config.bibleCall.chapter, 'close') }
+                onPress={ () => loadScrollSUB(config.bibleCall.chapter ) }
               />
             <TouchableOpacity 
               style={ { 
@@ -235,7 +224,7 @@ function Main(props){
                 position: 'absolute', 
                 bottom: 8, 
                 right: 20 } } 
-                onPress={ () => loadScrollADD(config.bibleCall.chapter, 'close') }
+                onPress={ () => loadScrollADD(config.bibleCall.chapter ) }
               />
   
           </View>
