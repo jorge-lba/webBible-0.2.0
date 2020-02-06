@@ -24,8 +24,9 @@ export default function App() {
 
   return (
     <>
-      <HeaderBible reload={ getValue } />
-      <Main fontSizeAll = { le.conf } />
+      <Routes/>
+      {/* <HeaderBible reload={ getValue } />
+      <Main fontSizeAll = { le.conf } /> */}
     </>
   );
 }

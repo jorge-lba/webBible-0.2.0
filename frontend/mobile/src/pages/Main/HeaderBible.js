@@ -60,7 +60,7 @@ function HeaderBible( props ) {
               console.log(e )
             }
 
-            props.reload( config.textSize )
+            props.reload( {size: config.textSize} )
         }
 
         storeData()
@@ -79,17 +79,17 @@ function HeaderBible( props ) {
 
     return (<>
 
-        <View style={ { height: 100, backgroundColor: "#888", flexDirection: 'row', paddingTop: 30 } } >
-                <Text style={ { fontSize: 30, paddingLeft: 16, textAlignVertical: 'center', color: '#FFF' } } >Biblía</Text>
+        {/* <View > */}
+                {/* <Text style={ { fontSize: 30, paddingLeft: 16, textAlignVertical: 'center', color: '#FFF' } } >Biblía</Text> */}
 
                 <TouchableOpacity onPress={ ( ) => {
                     modalConfig( ) 
 
                 }
-                } style={ { marginHorizontal: 8, width: 50, justifyContent: 'center', position:'relative',  } } >   
-                    <MaterialIcons name='more-vert' size={ 32 } color='#FFF'/>
+                } style={ { width: 32, height: 32, justifyContent: 'center' } } >   
+                    <MaterialIcons name='more-vert' size={ 24 } color='#FFF'/>
                 </TouchableOpacity>
-        </View> 
+        {/* </View>  */}
 
         
             <Modal  animationType="fade"
