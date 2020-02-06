@@ -52,7 +52,6 @@ function selectBackgroundColor ( value, configData ){
 
 function Main(props){
 
-
   const sizeNav = props.navigation.getParam( 'size' ) || 16
     
   const [ config, setConfig ] = useState( { 
@@ -223,6 +222,28 @@ function Main(props){
     object.chapter--
     setPagination( object, BOOKS, CHAPTERS ) 
   }
+
+  function buttonAction( seletedItens ){
+    console.log( seletedItens )
+      if(seletedItens[0]){
+       return <TouchableOpacity 
+        style={ { 
+          width: 56, 
+          height: 56, 
+          backgroundColor:'#FFF', 
+          opacity:1,
+          borderRadius: 50,
+          position: 'absolute',
+          left: '44%', 
+          bottom: 8, 
+          justifyContent: 'center',
+          alignItems: 'center',
+          elevation: 2
+        } } 
+          onPress={ () => console.log( 'Action' ) }
+        />
+      }
+  } 
    
   return( 
     <>  
@@ -261,8 +282,8 @@ function Main(props){
               style={ { 
                 borderWidth:1,
                 borderColor:'rgba(0,0,0,0.2)',
-                width: 50, 
-                height: 50, 
+                width: 40, 
+                height: 40, 
                 backgroundColor:'#453689', 
                 opacity:.4,
                 borderRadius: 50,
@@ -271,12 +292,14 @@ function Main(props){
                 left: 20 } } 
                 onPress={ () => loadScrollSUB(config.bibleCall ) }
               />
+            { buttonAction( config.selectedVerse ) }
+            
             <TouchableOpacity 
               style={ { 
                 borderWidth:1,
                 borderColor:'rgba(0,0,0,0.2)',
-                width: 50, 
-                height: 50, 
+                width: 40, 
+                height: 40, 
                 backgroundColor:'#453689', 
                 opacity:.4,
                 borderRadius: 50,
