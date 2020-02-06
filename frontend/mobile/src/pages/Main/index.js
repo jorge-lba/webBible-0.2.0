@@ -51,7 +51,6 @@ function selectBackgroundColor ( value, configData ){
 }
 
 function Main(props){
-  console.log( 'test' )  
 
   const sizeNav = props.fontSizeAll || 16
     
@@ -61,8 +60,9 @@ function Main(props){
     visible: 0 , 
     colorListContent: '#FAFAFA',
     bibleCall: {
-      book: 'genesis',
-      chapter: 1
+      book: 'Gênesis',
+      chapter: 1,
+      bookValueDropdown: 'Gênesis'
     },
     selectedVerse: []
   } )
@@ -135,18 +135,77 @@ function Main(props){
   }
 
   function getValueDropdown( option ,value ){
+
+    let valueChapter =  config.bibleCall.chapter
+
+    if( option === 'book' ){
+      const chapterArray = getChapters( value ).length
+        if( config.bibleCall.chapter > chapterArray ){
+           valueChapter = chapterArray
+        }
+    }
+
       setConfig( ( config ) => {
         return {
           ...config,
           bibleCall: {
             book: option === 'book'? value : config.bibleCall.book,
-            chapter: option === 'chapter'? value : config.bibleCall.chapter
+            chapter: option === 'chapter'? value : valueChapter
           },
           selectedVerse: []
         }
       } )
   }
-    
+
+  function setPagination( object, books, chapters ){
+     
+    books  = books.map( book => book.title )
+    chapters = chapters.map( chapter => parseInt(chapter.title) )
+
+    const testChapterIsValid = ( chapterNumber, chapterArray ) => {
+        return chapterArray.indexOf( chapterNumber ) > -1
+          ? true
+          : chapterArray.length < chapterNumber 
+            ? 'next'
+            : 'previous'
+    }
+
+    const resultTestChapter = testChapterIsValid( object.chapter, chapters )
+
+    if( resultTestChapter === 'next' ){
+      object.book = books[books.indexOf(object.book) +1]
+      
+      object.book === undefined 
+        ? object = {
+          book: books[ books.length-1 ], 
+          chapter: 22
+        } 
+        : object.chapter = 1
+
+    }else if( resultTestChapter === 'previous' ){
+      object.book = books[books.indexOf(object.book) -1]
+      
+      object.book === undefined 
+        ? object = {
+          book: books[ 0 ], 
+          chapter: 1
+        } 
+        : object.chapter = getChapters( object.book).length
+    }
+
+    setConfig( ( config ) => {
+      return {
+        ...config,
+        bibleCall: {
+          book: object.book,
+          chapter: object.chapter,
+
+        },
+        selectedVerse: []
+      }
+    } )
+  }
+  
   const BOOKS = getTitleBooks()
   const CHAPTERS = getChapters( config.bibleCall.book)
   const VERSES = getVerses(config.bibleCall.book, config.bibleCall.chapter )
@@ -155,21 +214,20 @@ function Main(props){
     title: ` `
   })
 
-
   function loadScrollADD(object){
-    object++
-    getValueDropdown( 'chapter',object ) 
+    object.chapter++
+    setPagination( object,BOOKS,CHAPTERS ) 
   }
   function loadScrollSUB(object){
-    object--
-    getValueDropdown( 'chapter',object ) 
+    object.chapter--
+    setPagination( object, BOOKS, CHAPTERS ) 
   }
    
   return( 
     <>  
       <View style={ styles.searchBible } >
         <Dropdown
-          value={ BOOKS[0].value }
+          value={ config.bibleCall.book }
           itemCount = { 10 }
           dropdownPosition={ 0 }
           dropdownOffset={ { top: 18, left: 0 } }
@@ -210,7 +268,7 @@ function Main(props){
                 position: 'absolute', 
                 bottom: 8, 
                 left: 20 } } 
-                onPress={ () => loadScrollSUB(config.bibleCall.chapter ) }
+                onPress={ () => loadScrollSUB(config.bibleCall ) }
               />
             <TouchableOpacity 
               style={ { 
@@ -224,7 +282,7 @@ function Main(props){
                 position: 'absolute', 
                 bottom: 8, 
                 right: 20 } } 
-                onPress={ () => loadScrollADD(config.bibleCall.chapter ) }
+                onPress={ () => loadScrollADD(config.bibleCall ) }
               />
    
           </View>

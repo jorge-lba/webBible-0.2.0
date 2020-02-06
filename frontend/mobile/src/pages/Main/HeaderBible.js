@@ -8,7 +8,7 @@ function HeaderBible( props ) {
     
     const [ config, setConfig ] = useState( { isShowingText: false, textSize: 16 } )
 
-    console.log(props.propsMain() )
+    
     useEffect(() => {
 
         async function configFontSize(){
